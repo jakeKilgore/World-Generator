@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7125cb3724f584c907097654ec6679, type: 3}
+  m_Name: Terrain
+  m_EditorClassIdentifier: 
+  foldout: 1
+  baseStrength: 2
+  baseRoughness: 0.17
+  noiseLayers: 8
+  strengthScale: 0.31
+  roughnessScale: 1.45
+  renderLayer: 0
+  resolution: 2
