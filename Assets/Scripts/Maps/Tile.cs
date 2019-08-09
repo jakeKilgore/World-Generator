@@ -37,7 +37,7 @@ namespace Maps {
 
             coordinatesRelativeToParent = coordinates;
             if (parent != null) {
-                Coordinates parentCoords = parent.coordinates;
+                Coordinates parentCoords = parent.Coordinates;
                 coordinates = new Coordinates(2 * parentCoords.X - parentCoords.Y, parentCoords.X + 3 * parentCoords.Y);
                 coordinates = coordinates.Add(coordinatesRelativeToParent);
             }
@@ -80,7 +80,7 @@ namespace Maps {
             if (!world.Layers.ContainsKey(layer)) {
                 world.Layers.Add(layer, new Map());
             }
-            world.Layers[layer].Add(coordinates, this);
+            world.Layers[layer].Add(Coordinates, this);
         }
 
         protected void SetParent(Tile parent) {
@@ -94,7 +94,7 @@ namespace Maps {
                     ((Tile)this[direction]).Delete();
                 }
             }
-            world.Layers[layer].Remove(this.coordinates);
+            world.Layers[layer].Remove(this.Coordinates);
         }
 
 
@@ -167,7 +167,7 @@ namespace Maps {
         }
 
         public override string ToString() {
-            return Layers.GetName(layer) + ": (" + coordinates.X + ", " + coordinates.Y + ")";
+            return Layers.GetName(layer) + ": (" + Coordinates.X + ", " + Coordinates.Y + ")";
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Maps {
             base.Add(coordinates, submap);
         }
         public virtual void Add(Map submap) {
-            Add(submap.coordinates, submap);
+            Add(submap.Coordinates, submap);
         }
 
 
