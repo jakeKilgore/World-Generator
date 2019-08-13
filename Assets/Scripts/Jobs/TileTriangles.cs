@@ -126,7 +126,7 @@ public struct TileTriangles : IJob {
         drawTriangles[index] = node;
         drawTriangles[index + 1] = vertex1;
         drawTriangles[index + 2] = vertex2;
-        return 1;
+        return 3;
     }
 
     public static int AllocationSpaceForDrawTrianglesArray(int numLayers) {
