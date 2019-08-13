@@ -17,19 +17,11 @@ public static class TileEntityFactory {
         typeof(Translation),
         typeof(RenderMesh),
         typeof(LocalToWorld),
-        typeof(Coordinates),
+        typeof(HexCoordinates),
         typeof(IsTile)
     );
 
     public static void Generate(NoiseFilter noiseFilter) {
         Entity tile = entityManager.CreateEntity(archetype);
-        int layers = 5;
-        NativeArray<int> drawTriangles = new NativeArray<int>(TileTriangles.AllocationSpaceForDrawTrianglesArray(layers), Allocator.TempJob);
-        JobHandle job = new TileTriangles {
-            drawTriangles = drawTriangles,
-            numLayers = layers
-        }.Schedule();
-        job.Complete();
-        drawTriangles.Dispose();
     }
 }
