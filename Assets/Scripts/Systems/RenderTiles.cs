@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Rendering;
-using Unity.Collections;
 using UnityEngine;
-using Unity.Burst;
 
 public class RenderTiles : ComponentSystem {
     private NoiseFilter noiseFilter;
@@ -17,43 +14,33 @@ public class RenderTiles : ComponentSystem {
     }
 
     protected override void OnUpdate() {
-        EntityQuery query = Entities.WithAll<IsTile>().ToEntityQuery();
-        NativeArray<Entity> tiles = query.ToEntityArray(Allocator.TempJob);
-        tiles.Dispose();
+        Entities.WithAll<IsTile>().ForEach((Entity tile) => {
+            GenerateMesh(tile);
+        });
     }
 
-    private void GenerateMeshTest(Entity tile) {
-        Vector3[] vertices = new Vector3[7];
-        int[] triangles = new int[18];
+    private void GenerateMesh(Entity tile) {
+        float2 position = EntityManager.GetComponentData<HexCoordinates>(tile).Position();
+        int numRings = 10;
+        NativeArray<Vector3> vertices = new NativeArray<Vector3>(TileVertices.AllocationSpaceForVertexArray(numRings), Allocator.Persistent);
+        NativeArray<int> triangles = new NativeArray<int>(TileTriangles.AllocationSpaceForDrawTrianglesArray(numRings), Allocator.Persistent);
 
-        vertices[0] = new Vector3(0, 0, 0);
-        for (int i = 0; i < 6; i++) {
-            float degrees = (60 * i);
-            float radians = (math.PI / 180) * degrees;
-            float posX = math.cos(radians);
-            float posZ = math.sin(radians);
-            vertices[i + 1] = new Vector3(posX, noiseFilter.Evalutate(new float2(posX, posZ)), posZ);
-        }
-
-        int triIndex = 0;
-        for (int j = 1; j < 7; j++) {
-            triangles[triIndex++] = 0;
-            if (j != 6) {
-                triangles[triIndex++] = j + 1;
-            } else {
-                triangles[triIndex++] = 1;
-            }
-            triangles[triIndex++] = j;
-        }
+        TileVertices verticesJob = new TileVertices(vertices, numRings, position, noiseFilter);
+        TileTriangles trianglesJob = new TileTriangles(triangles, numRings);
+        verticesJob.Schedule().Complete();
+        trianglesJob.Schedule().Complete();
 
         Mesh tileMesh = new Mesh {
-            vertices = vertices,
-            triangles = triangles
+            vertices = verticesJob.vertices.ToArray(),
+            triangles = trianglesJob.drawTriangles.ToArray()
         };
 
         EntityManager.SetSharedComponentData(tile, new RenderMesh {
             mesh = tileMesh,
             material = new Material(Shader.Find("Standard"))
         });
+
+        vertices.Dispose();
+        triangles.Dispose();
     }
 }
