@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
-public class NoiseFilter
+public struct NoiseFilter
 {
-    public NoiseFilter() {
-
-    }
-
-    public float Evalutate(float2 coords) {
-        return noise.snoise(coords);
+    public float Evaluate(float2 coords) {
+        return noise.snoise(coords / 2);
     }
 }
