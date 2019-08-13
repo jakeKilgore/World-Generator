@@ -25,6 +25,11 @@ public struct TileTriangles : IJob {
     [WriteOnly] public NativeArray<int> drawTriangles;
     public int numLayers;
 
+    public TileTriangles(NativeArray<int> drawTriangles, int numLayers) {
+        this.drawTriangles = drawTriangles;
+        this.numLayers = numLayers;
+    }
+
     public void Execute() {
         if (!drawTriangles.IsCreated) {
             throw new ArgumentException("A native array for drawing triangles must be provided.");
@@ -82,7 +87,6 @@ public struct TileTriangles : IJob {
                 }
 
                 trianglesDrawn += DrawTriangle(currentNode, vertex1, vertex2, drawTrianglesIndex + trianglesDrawn);
-
 
                 if (currentNode == endNode) {
                     trianglesDrawn += DrawTriangle(startNode, endVertex, startVertex, drawTrianglesIndex + trianglesDrawn);
