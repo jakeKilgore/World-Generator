@@ -9,19 +9,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
-/// <summary>   A noise filter. </summary>
-///
-/// <remarks>   The Vitulus, 8/13/2019. </remarks>
-public struct NoiseFilter
-{
-    /// <summary>   Evaluates the given coordinates. </summary>
+namespace Assets.Scripts {
+
+    /// <summary>   A noise filter. </summary>
     ///
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
-    ///
-    /// <param name="coords">   The coordinates. </param>
-    ///
-    /// <returns>   The height value at the given coordinates. </returns>
-    public float Evaluate(float2 coords) {
-        return noise.snoise(coords / 2);
+    public struct NoiseFilter {
+
+        /// <summary>   Evaluates the given coordinates. </summary>
+        ///
+        /// <remarks>   The Vitulus, 8/13/2019. </remarks>
+        ///
+        /// <param name="coords">   The coordinates. </param>
+        ///
+        /// <returns>   The height value at the given coordinates. </returns>
+        public float Evaluate(float2 coords) {
+            return noise.snoise(coords / 2);
+        }
     }
 }

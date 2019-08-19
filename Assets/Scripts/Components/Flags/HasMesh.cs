@@ -8,7 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>   A flag noting that an entity has a mesh generated. </summary>
-///
-/// <remarks>   The Vitulus, 8/13/2019. </remarks>
-public class HasMesh : Component {  }
+
+namespace Assets.Scripts.Components.Flags {
+
+    /// <summary>   A flag noting that an entity has a mesh generated. </summary>
+    ///
+    /// <remarks>   The Vitulus, 8/13/2019. </remarks>
+    public class HasMesh : Component { }
+}
