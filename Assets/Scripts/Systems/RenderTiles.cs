@@ -48,11 +48,11 @@ namespace Assets.Scripts.Systems {
         private void GenerateMesh(Entity tile) {
             float2 position = EntityManager.GetComponentData<HexCoordinates>(tile).Position();
             int numRings = 10;
-            NativeArray<Vector3> vertices = new NativeArray<Vector3>(GenerateTileVertices.AllocationSpaceForVertexArray(numRings), Allocator.Persistent);
-            NativeArray<int> triangles = new NativeArray<int>(GenerateTileTriangles.AllocationSpaceForDrawTrianglesArray(numRings), Allocator.Persistent);
+            NativeArray<Vector3> vertices = new NativeArray<Vector3>(TileVertices.AllocationSpaceForVertexArray(numRings), Allocator.Persistent);
+            NativeArray<int> triangles = new NativeArray<int>(TileTriangles.AllocationSpaceForDrawTrianglesArray(numRings), Allocator.Persistent);
 
-            GenerateTileVertices verticesJob = new GenerateTileVertices(vertices, numRings, position, noiseFilter);
-            GenerateTileTriangles trianglesJob = new GenerateTileTriangles(triangles, numRings);
+            TileVertices verticesJob = new TileVertices(vertices, numRings, position, noiseFilter);
+            TileTriangles trianglesJob = new TileTriangles(triangles, numRings);
             verticesJob.Schedule().Complete();
             trianglesJob.Schedule().Complete();
 
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Systems {
                 triangles = trianglesJob.drawTrianglesArray.ToArray()
             };
 
-            EntityManager.SetSharedComponentData(tile, new RenderMesh {
+            PostUpdateCommands.SetSharedComponent(tile, new RenderMesh {
                 mesh = tileMesh,
                 material = new Material(Shader.Find("Standard"))
             });
