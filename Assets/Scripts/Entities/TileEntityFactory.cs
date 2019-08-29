@@ -16,8 +16,11 @@ using Unity.Jobs;
 using System;
 using Assets.Scripts.Components;
 using Assets.Scripts.Components.Flags;
+using Assets.Scripts.Components.BufferElements;
+using Assets.Scripts.Systems.Render;
 
-namespace Assets.Scripts.Entities {
+namespace Assets.Scripts.Entities
+{
 
     /// <summary>   A factory class for generating tile entities. </summary>
     ///
@@ -33,7 +36,9 @@ namespace Assets.Scripts.Entities {
         typeof(RenderMesh),
         typeof(LocalToWorld),
         typeof(HexCoordinates),
-        typeof(IsTile)
+        typeof(IsTile),
+        typeof(Triangle),
+        typeof(Vertex)
     );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
@@ -43,6 +48,9 @@ namespace Assets.Scripts.Entities {
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
         public static void Generate(NoiseFilter noiseFilter) {
             Entity tile = entityManager.CreateEntity(archetype);
+            entityManager.SetSharedComponentData(tile, new RenderMesh {
+                mesh = new Mesh()
+            });
         }
     }
 }

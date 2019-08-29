@@ -7,6 +7,7 @@
 using Assets.Scripts.Components;
 using Assets.Scripts.Components.Flags;
 using Assets.Scripts.Jobs;
+using Assets.Scripts.Systems.Render;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -14,10 +15,12 @@ using Unity.Mathematics;
 using Unity.Rendering;
 using UnityEngine;
 
-namespace Assets.Scripts.Systems {
+namespace Assets.Scripts.Systems
+{
     /// <summary>   A system for rendering tile entities. </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
+    [DisableAutoCreation]
     public class RenderTiles : ComponentSystem {
 
         /// <summary>   A filter specifying the noise. </summary>
