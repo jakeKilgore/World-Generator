@@ -16,7 +16,7 @@ namespace Assets.Scripts.Systems.Render
 
         protected override void OnCreate() {
             base.OnCreateManager();
-            numRings = 3;
+            numRings = 10;
             noiseFilter = new NoiseFilter();
             bufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }

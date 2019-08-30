@@ -12,6 +12,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
 {
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Vertex))]
+    [ExcludeComponent(typeof(HasMesh))]
     public struct GenerateVerticesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]

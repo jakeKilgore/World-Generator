@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.bovinelabs.entities": "https://github.com/tertle/com.bovinelabs.entities.git",
+    "com.bovinelabs.naughtyattributes": "https://github.com/tertle/com.bovinelabs.naughtyattributes.git",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.3.2",
     "com.unity.burst": "1.1.2",
@@ -48,5 +50,15 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.bovinelabs.naughtyattributes": {
+      "revision": "HEAD",
+      "hash": "3066ded4f3047463e3864b1af688f574cb3728b5"
+    },
+    "com.bovinelabs.entities": {
+      "revision": "HEAD",
+      "hash": "87ac3d5864f0d4e4bc842f7d8ef1c04b3c7a883b"
+    }
   }
 }

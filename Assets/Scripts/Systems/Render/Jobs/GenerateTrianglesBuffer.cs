@@ -9,6 +9,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
 {
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Triangle))]
+    [ExcludeComponent(typeof(HasMesh))]
     public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]
