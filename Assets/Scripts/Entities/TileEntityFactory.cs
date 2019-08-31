@@ -18,6 +18,7 @@ using Assets.Scripts.Components;
 using Assets.Scripts.Components.Flags;
 using Assets.Scripts.Components.BufferElements;
 using Assets.Scripts.Systems.Render;
+using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.Entities
 {
@@ -26,9 +27,8 @@ namespace Assets.Scripts.Entities
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
     public static class TileEntityFactory {
-
         /// <summary>   The world's entity manager. </summary>
-        private static EntityManager entityManager = World.Active.EntityManager;
+        private static readonly EntityManager entityManager = World.Active.EntityManager;
 
         /// <summary>   The tile archetype. </summary>
         private static EntityArchetype archetype = entityManager.CreateArchetype(
@@ -38,7 +38,8 @@ namespace Assets.Scripts.Entities
         typeof(HexCoordinates),
         typeof(IsTile),
         typeof(Triangle),
-        typeof(Vertex)
+        typeof(Vertex),
+        typeof(NumRings)
     );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
@@ -46,11 +47,12 @@ namespace Assets.Scripts.Entities
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
-        public static void Generate(NoiseFilter noiseFilter) {
+        public static void Generate(NoiseFilter noiseFilter, MapSettings mapSettings) {
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
                 mesh = new Mesh()
             });
+            entityManager.SetComponentData(tile, new NumRings(mapSettings.numRings));
         }
     }
 }

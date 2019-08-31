@@ -10,22 +10,20 @@ namespace Assets.Scripts.Systems.Render.Jobs
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Triangle))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
+    public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates, NumRings>
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Triangle> entityBuffers;
-        readonly int numRings;
 
-        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers, int numRings) {
+        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers) {
             this.entityBuffers = entityBuffers;
-            this.numRings = numRings;
         }
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates c0) {
+        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates, [ReadOnly] ref NumRings numRings) {
             DynamicBuffer<Triangle> triangles = entityBuffers[entity];
             triangles.Clear();
             int triangleIndex = 0;
-            for (int currentLayer = 1; currentLayer <= numRings; currentLayer++) {
+            for (int currentLayer = 1; currentLayer <= numRings.value; currentLayer++) {
                 triangleIndex += DrawRing(triangles, currentLayer, triangleIndex);
             }
         }
@@ -106,10 +104,6 @@ namespace Assets.Scripts.Systems.Render.Jobs
             triangles.Add(vertex1);
             triangles.Add(vertex2);
             return 3;
-        }
-
-        private int AllocationSpaceForDrawTrianglesArray(int numRings) {
-            return 3 * HexMath.CheckTrianglesInHex(numRings);
         }
     }
 }
