@@ -33,7 +33,13 @@ namespace Assets.Scripts
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         void Start() {
             NoiseFilter noiseFilter = new NoiseFilter();
-            TileEntityFactory.Generate(noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(-1, 0), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(0, 0), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(1, 0), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(0, -1), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(0, 1), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(1, -1), noiseFilter, mapSettings);
+            TileEntityFactory.Generate(new HexCoordinates(-1, 1), noiseFilter, mapSettings);
         }
 
         public void Regenerate()

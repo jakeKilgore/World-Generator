@@ -27,10 +27,11 @@ namespace Assets.Scripts.Components {
         /// <summary>   The offset. </summary>
         public int offset;
 
-        public HexCoordinates(int column, int row, int offset) {
+        public HexCoordinates(int column, int row)
+        {
             this.column = column;
             this.row = row;
-            this.offset = offset;
+            this.offset = -(column + row);
         }
 
         /// <summary>   The width multiple. </summary>

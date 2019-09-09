@@ -47,8 +47,9 @@ namespace Assets.Scripts.Entities
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
-        public static void Generate(NoiseFilter noiseFilter, MapSettings mapSettings) {
+        public static void Generate(HexCoordinates coordinates, NoiseFilter noiseFilter, MapSettings mapSettings) {
             Entity tile = entityManager.CreateEntity(archetype);
+            entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
                 mesh = new Mesh()
             });
