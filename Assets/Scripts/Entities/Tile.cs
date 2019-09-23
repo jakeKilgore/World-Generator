@@ -26,28 +26,30 @@ namespace Assets.Scripts.Entities
     /// <summary>   A factory class for generating tile entities. </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
-    public static class TileEntityFactory {
+    public static class Tile
+    {
         /// <summary>   The world's entity manager. </summary>
         private static readonly EntityManager entityManager = World.Active.EntityManager;
 
         /// <summary>   The tile archetype. </summary>
         private static EntityArchetype archetype = entityManager.CreateArchetype(
-        typeof(Translation),
-        typeof(RenderMesh),
-        typeof(LocalToWorld),
-        typeof(HexCoordinates),
-        typeof(IsTile),
-        typeof(Triangle),
-        typeof(Vertex),
-        typeof(NumRings)
-    );
+            typeof(Translation),
+            typeof(RenderMesh),
+            typeof(LocalToWorld),
+            typeof(HexCoordinates),
+            typeof(IsTile),
+            typeof(Triangle),
+            typeof(Vertex),
+            typeof(NumRings)
+        );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
         ///
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
-        public static void Generate(HexCoordinates coordinates, NoiseFilter noiseFilter, MapSettings mapSettings) {
+        public static void Generate(HexCoordinates coordinates, MapSettings mapSettings)
+        {
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {

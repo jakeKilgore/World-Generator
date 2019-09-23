@@ -7,7 +7,6 @@ using Unity.Mathematics;
 using Assets.Scripts.Components;
 using Assets.Scripts.Components.BufferElements;
 using UnityEngine;
-using NumRings = Assets.Scripts.Components.NumRings;
 
 namespace Assets.Scripts.Systems.Render.Jobs
 {
@@ -18,11 +17,11 @@ namespace Assets.Scripts.Systems.Render.Jobs
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Vertex> entityBuffers;
-        readonly NoiseFilter noiseFilter;
+        readonly NoiseData noise;
 
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseFilter noiseFilter) {
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseData noise) {
             this.entityBuffers = entityBuffers;
-            this.noiseFilter = noiseFilter;
+            this.noise = noise;
         }
 
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates, [ReadOnly] ref NumRings numRings) {
@@ -70,7 +69,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         }
 
         private Vector3 DrawVertex(float2 point) {
-            return new Vector3(point.x, noiseFilter.Evaluate(point), point.y);
+            return new Vector3(point.x, noise.Evaluate(point), point.y);
         }
     }
 }

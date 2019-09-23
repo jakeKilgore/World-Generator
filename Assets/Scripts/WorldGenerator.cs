@@ -25,6 +25,7 @@ namespace Assets.Scripts
     public class WorldGenerator : MonoBehaviour {
         [SerializeField]
         private MapSettings mapSettings;
+        private EntityManager entityManager;
 
         public MapSettings MapSettings { get => mapSettings; }
 
@@ -32,14 +33,18 @@ namespace Assets.Scripts
         ///
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         void Start() {
-            NoiseFilter noiseFilter = new NoiseFilter();
-            TileEntityFactory.Generate(new HexCoordinates(-1, 0), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(0, 0), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(1, 0), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(0, -1), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(0, 1), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(1, -1), noiseFilter, mapSettings);
-            TileEntityFactory.Generate(new HexCoordinates(-1, 1), noiseFilter, mapSettings);
+            entityManager = World.Active.EntityManager;
+            entityManager.CreateEntity(typeof(NoiseData));
+            EntityQuery query = entityManager.CreateEntityQuery(typeof(NoiseData));
+            query.SetSingleton(new NoiseData(0));
+
+            Tile.Generate(new HexCoordinates(-1, 0), mapSettings);
+            Tile.Generate(new HexCoordinates(0, 0), mapSettings);
+            Tile.Generate(new HexCoordinates(1, 0), mapSettings);
+            Tile.Generate(new HexCoordinates(0, -1), mapSettings);
+            Tile.Generate(new HexCoordinates(0, 1), mapSettings);
+            Tile.Generate(new HexCoordinates(1, -1), mapSettings);
+            Tile.Generate(new HexCoordinates(-1, 1), mapSettings);
         }
 
         public void Regenerate()

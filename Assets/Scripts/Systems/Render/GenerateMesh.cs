@@ -11,7 +11,6 @@ using Assets.Scripts.Components.Flags;
 namespace Assets.Scripts.Systems.Render
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    [UpdateAfter(typeof(BufferRender))]
     public class GenerateMesh : ComponentSystem
     {
         EntityQueryBuilder.F_ESBB<RenderMesh, Vertex, Triangle> assignMesh;

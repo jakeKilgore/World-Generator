@@ -12,18 +12,18 @@ namespace Assets.Scripts.Systems.Render
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class BufferRender : JobComponentSystem
     {
-        NoiseFilter noiseFilter;
         EndSimulationEntityCommandBufferSystem bufferSystem;
 
         protected override void OnCreate() {
             base.OnCreateManager();
-            noiseFilter = new NoiseFilter();
             bufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         protected override JobHandle OnUpdate(JobHandle inputDeps) {
+            NoiseData noise = GetSingleton<NoiseData>();
+
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
-            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noiseFilter);
+            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noise);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<Triangle> triangleBuffers = GetBufferFromEntity<Triangle>();
