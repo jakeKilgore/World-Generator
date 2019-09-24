@@ -39,8 +39,7 @@ namespace Assets.Scripts.Entities
             typeof(HexCoordinates),
             typeof(IsTile),
             typeof(Triangle),
-            typeof(Vertex),
-            typeof(NumRings)
+            typeof(Vertex)
         );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
@@ -48,14 +47,13 @@ namespace Assets.Scripts.Entities
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
-        public static void Generate(HexCoordinates coordinates, MapSettings mapSettings)
+        public static void Generate(HexCoordinates coordinates)
         {
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
                 mesh = new Mesh()
             });
-            entityManager.SetComponentData(tile, new NumRings(mapSettings.numRings));
         }
     }
 }

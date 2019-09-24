@@ -10,20 +10,22 @@ namespace Assets.Scripts.Systems.Render.Jobs
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Triangle))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates, NumRings>
+    public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Triangle> entityBuffers;
+        readonly MapData mapData;
 
-        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers) {
+        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers, MapData mapData) {
             this.entityBuffers = entityBuffers;
+            this.mapData = mapData;
         }
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates, [ReadOnly] ref NumRings numRings) {
+        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
             DynamicBuffer<Triangle> triangles = entityBuffers[entity];
             triangles.Clear();
             int triangleIndex = 0;
-            for (int currentLayer = 1; currentLayer <= numRings.value; currentLayer++) {
+            for (int currentLayer = 1; currentLayer <= mapData.levelOfDetail; currentLayer++) {
                 triangleIndex += DrawRing(triangles, currentLayer, triangleIndex);
             }
         }

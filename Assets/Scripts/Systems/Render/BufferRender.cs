@@ -21,13 +21,14 @@ namespace Assets.Scripts.Systems.Render
 
         protected override JobHandle OnUpdate(JobHandle inputDeps) {
             NoiseData noise = GetSingleton<NoiseData>();
+            MapData mapData = GetSingleton<MapData>();
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
-            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noise);
+            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<Triangle> triangleBuffers = GetBufferFromEntity<Triangle>();
-            GenerateTrianglesBuffer triangles = new GenerateTrianglesBuffer(triangleBuffers);
+            GenerateTrianglesBuffer triangles = new GenerateTrianglesBuffer(triangleBuffers, mapData);
             JobHandle triangleJob = triangles.Schedule(this, inputDeps);
 
             JobHandle jobs = JobHandle.CombineDependencies(vertexJob, triangleJob);

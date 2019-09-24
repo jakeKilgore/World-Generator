@@ -22,38 +22,48 @@ namespace Assets.Scripts
     /// <summary>   A world generator. </summary>
     ///
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
-    public class WorldGenerator : MonoBehaviour {
+    public class WorldGenerator : MonoBehaviour
+    {
         [SerializeField]
         private MapSettings mapSettings;
+
         private EntityManager entityManager;
+        private EntityQuery noiseQuery;
+        private EntityQuery mapQuery;
 
         public MapSettings MapSettings { get => mapSettings; }
 
         /// <summary>   Starts this object. </summary>
         ///
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
-        void Start() {
+        void Start()
+        {
             entityManager = World.Active.EntityManager;
-            entityManager.CreateEntity(typeof(NoiseData));
-            EntityQuery query = entityManager.CreateEntityQuery(typeof(NoiseData));
-            query.SetSingleton(new NoiseData(0));
+            noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseData));
+            mapQuery = entityManager.CreateEntityQuery(typeof(MapData));
 
-            Tile.Generate(new HexCoordinates(-1, 0), mapSettings);
-            Tile.Generate(new HexCoordinates(0, 0), mapSettings);
-            Tile.Generate(new HexCoordinates(1, 0), mapSettings);
-            Tile.Generate(new HexCoordinates(0, -1), mapSettings);
-            Tile.Generate(new HexCoordinates(0, 1), mapSettings);
-            Tile.Generate(new HexCoordinates(1, -1), mapSettings);
-            Tile.Generate(new HexCoordinates(-1, 1), mapSettings);
+            entityManager.CreateEntity(typeof(NoiseData));
+            noiseQuery.SetSingleton(new NoiseData(0));
+            entityManager.CreateEntity(typeof(MapData));
+            mapQuery.SetSingleton(new MapData(mapSettings.numRings));
+
+            Tile.Generate(new HexCoordinates(-1, 0));
+            Tile.Generate(new HexCoordinates(0, 0));
+            Tile.Generate(new HexCoordinates(1, 0));
+            Tile.Generate(new HexCoordinates(0, -1));
+            Tile.Generate(new HexCoordinates(0, 1));
+            Tile.Generate(new HexCoordinates(1, -1));
+            Tile.Generate(new HexCoordinates(-1, 1));
         }
 
         public void Regenerate()
         {
+            mapQuery.SetSingleton(new MapData(mapSettings.numRings));
             BeginInitializationEntityCommandBufferSystem bufferSystem = World.Active.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
             EntityCommandBuffer.Concurrent commandBuffer = bufferSystem.CreateCommandBuffer().ToConcurrent();
 
-            ClearMeshes clearMeshes = new ClearMeshes(mapSettings.numRings, commandBuffer);
-            JobHandle jobHandle = clearMeshes.Schedule(World.Active.EntityManager.CreateEntityQuery(typeof(IsTile), typeof(HasMesh), typeof(NumRings)));
+            ClearMeshes clearMeshes = new ClearMeshes(commandBuffer);
+            JobHandle jobHandle = clearMeshes.Schedule(World.Active.EntityManager.CreateEntityQuery(typeof(IsTile), typeof(HasMesh)));
 
             bufferSystem.AddJobHandleForProducer(jobHandle);
         }

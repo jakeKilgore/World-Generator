@@ -17,14 +17,8 @@ namespace Assets.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            NormalizeSettings();
 
             DrawSettingsEditor(worldGenerator.MapSettings, worldGenerator.Regenerate, ref worldGenerator.MapSettings.foldout, ref mapEditor);
-        }
-
-        private void NormalizeSettings()
-        {
-
         }
 
         void DrawSettingsEditor(ScriptableObject settings, Action regenerate, ref bool foldout, ref UnityEditor.Editor editor)

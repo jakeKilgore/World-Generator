@@ -13,25 +13,27 @@ namespace Assets.Scripts.Systems.Render.Jobs
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Vertex))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateVerticesBuffer : IJobForEachWithEntity<HexCoordinates, NumRings>
+    public struct GenerateVerticesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Vertex> entityBuffers;
         readonly NoiseData noise;
+        readonly MapData mapData;
 
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseData noise) {
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseData noise, MapData mapData) {
             this.entityBuffers = entityBuffers;
             this.noise = noise;
+            this.mapData = mapData;
         }
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates, [ReadOnly] ref NumRings numRings) {
+        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
             DynamicBuffer<Vertex> vertices = entityBuffers[entity];
             vertices.Clear();
             float2 position = coordinates.Position();
             vertices.Add(DrawVertex(position));
             int vertexIndex = 1;
-            for (int currentRing = 1; currentRing <= numRings.value; currentRing++) {
-                vertexIndex = DrawRing(vertices, currentRing, vertexIndex, position, numRings.value);
+            for (int currentRing = 1; currentRing <= mapData.levelOfDetail; currentRing++) {
+                vertexIndex = DrawRing(vertices, currentRing, vertexIndex, position, mapData.levelOfDetail);
             }
         }
 

@@ -6,20 +6,17 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Jobs
 {
-    public struct ClearMeshes : IJobForEachWithEntity<HasMesh, NumRings>
+    public struct ClearMeshes : IJobForEachWithEntity<HasMesh>
     {
         EntityCommandBuffer.Concurrent commandBuffer;
-        int numRings;
 
-        public ClearMeshes(int numRings, EntityCommandBuffer.Concurrent commandBuffer)
+        public ClearMeshes(EntityCommandBuffer.Concurrent commandBuffer)
         {
-            this.numRings = numRings;
             this.commandBuffer = commandBuffer;
         }
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref HasMesh c0, ref NumRings numRings)
+        public void Execute(Entity entity, int index, [ReadOnly] ref HasMesh c0)
         {
-            numRings.value = this.numRings;
             commandBuffer.RemoveComponent<HasMesh>(index, entity);
         }
     }
