@@ -25,13 +25,13 @@ namespace Assets.Scripts
     public class WorldGenerator : MonoBehaviour
     {
         [SerializeField]
-        private MapSettings mapSettings;
+        private MapEditorSettings mapSettings;
 
         private EntityManager entityManager;
         private EntityQuery noiseQuery;
         private EntityQuery mapQuery;
 
-        public MapSettings MapSettings { get => mapSettings; }
+        public MapEditorSettings MapSettings { get => mapSettings; }
 
         /// <summary>   Starts this object. </summary>
         ///
@@ -39,13 +39,13 @@ namespace Assets.Scripts
         void Start()
         {
             entityManager = World.Active.EntityManager;
-            noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseData));
-            mapQuery = entityManager.CreateEntityQuery(typeof(MapData));
+            noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseSettings));
+            mapQuery = entityManager.CreateEntityQuery(typeof(MapSettings));
 
-            entityManager.CreateEntity(typeof(NoiseData));
-            noiseQuery.SetSingleton(new NoiseData(0));
-            entityManager.CreateEntity(typeof(MapData));
-            mapQuery.SetSingleton(new MapData(mapSettings.numRings));
+            entityManager.CreateEntity(typeof(NoiseSettings));
+            noiseQuery.SetSingleton(new NoiseSettings(0));
+            entityManager.CreateEntity(typeof(MapSettings));
+            mapQuery.SetSingleton(new MapSettings(mapSettings.levelOfDetail));
 
             Tile.Generate(new HexCoordinates(-1, 0));
             Tile.Generate(new HexCoordinates(0, 0));
@@ -58,7 +58,7 @@ namespace Assets.Scripts
 
         public void Regenerate()
         {
-            mapQuery.SetSingleton(new MapData(mapSettings.numRings));
+            mapQuery.SetSingleton(new MapSettings(mapSettings.levelOfDetail));
             BeginInitializationEntityCommandBufferSystem bufferSystem = World.Active.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
             EntityCommandBuffer.Concurrent commandBuffer = bufferSystem.CreateCommandBuffer().ToConcurrent();
 

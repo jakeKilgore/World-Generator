@@ -17,10 +17,10 @@ namespace Assets.Scripts.Systems.Render.Jobs
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Vertex> entityBuffers;
-        readonly NoiseData noise;
-        readonly MapData mapData;
+        readonly NoiseSettings noise;
+        readonly MapSettings mapData;
 
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseData noise, MapData mapData) {
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseSettings noise, MapSettings mapData) {
             this.entityBuffers = entityBuffers;
             this.noise = noise;
             this.mapData = mapData;

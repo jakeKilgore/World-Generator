@@ -14,9 +14,9 @@ namespace Assets.Scripts.Systems.Render.Jobs
     {
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Triangle> entityBuffers;
-        readonly MapData mapData;
+        readonly MapSettings mapData;
 
-        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers, MapData mapData) {
+        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers, MapSettings mapData) {
             this.entityBuffers = entityBuffers;
             this.mapData = mapData;
         }

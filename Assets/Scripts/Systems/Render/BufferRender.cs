@@ -6,6 +6,7 @@ using Assets.Scripts.Components.BufferElements;
 using Assets.Scripts.Systems.Render.Jobs;
 using Unity.Collections;
 using Assets.Scripts.Components.Flags;
+using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Systems.Render
 {
@@ -20,8 +21,8 @@ namespace Assets.Scripts.Systems.Render
         }
 
         protected override JobHandle OnUpdate(JobHandle inputDeps) {
-            NoiseData noise = GetSingleton<NoiseData>();
-            MapData mapData = GetSingleton<MapData>();
+            NoiseSettings noise = GetSingleton<NoiseSettings>();
+            MapSettings mapData = GetSingleton<MapSettings>();
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
             GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noise, mapData);

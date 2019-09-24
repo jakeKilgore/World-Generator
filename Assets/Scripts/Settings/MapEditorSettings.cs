@@ -4,9 +4,9 @@ using UnityEngine;
 namespace Assets.Scripts.Settings
 {
     [CreateAssetMenu()]
-    public class MapSettings : Setting
+    public class MapEditorSettings : Setting
     {
         [Range(1, 100)]
-        public int numRings;
+        public int levelOfDetail;
     }
 }

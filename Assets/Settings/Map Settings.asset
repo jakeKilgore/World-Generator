@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Map Settings
   m_EditorClassIdentifier: 
   foldout: 1
-  numRings: 50
+  levelOfDetail: 50
