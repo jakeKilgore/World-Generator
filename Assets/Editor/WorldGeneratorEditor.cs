@@ -13,12 +13,14 @@ namespace Assets.Editor
     {
         WorldGenerator worldGenerator;
         UnityEditor.Editor mapEditor;
+        UnityEditor.Editor noiseEditor;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
             DrawSettingsEditor(worldGenerator.MapSettings, worldGenerator.Regenerate, ref worldGenerator.MapSettings.foldout, ref mapEditor);
+            DrawSettingsEditor(worldGenerator.NoiseSettings, worldGenerator.Regenerate, ref worldGenerator.NoiseSettings.foldout, ref noiseEditor);
         }
 
         void DrawSettingsEditor(ScriptableObject settings, Action regenerate, ref bool foldout, ref UnityEditor.Editor editor)

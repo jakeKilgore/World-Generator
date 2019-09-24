@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSettings: {fileID: 11400000, guid: bc538088447060e40bde85b867d05c94, type: 2}
+  noiseSettings: {fileID: 11400000, guid: b2e7b20293a675e46a2b793d1a6e5a3f, type: 2}
 --- !u!4 &1816167864
 Transform:
   m_ObjectHideFlags: 0

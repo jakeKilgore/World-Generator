@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803685dac3e48ab4b931dd1df3ca9819, type: 3}
-  m_Name: Map Settings
+  m_Script: {fileID: 11500000, guid: 0209a1b6dd1770f4e913908c04859e5a, type: 3}
+  m_Name: Noise Settings
   m_EditorClassIdentifier: 
   foldout: 1
-  levelOfDetail: 37
+  amplitude: 0.08
+  frequency: 2

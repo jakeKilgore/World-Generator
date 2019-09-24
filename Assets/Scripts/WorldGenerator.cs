@@ -24,14 +24,15 @@ namespace Assets.Scripts
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
     public class WorldGenerator : MonoBehaviour
     {
-        [SerializeField]
-        private MapEditorSettings mapSettings;
+        public MapEditorSettings mapSettings;
+        public NoiseEditorSettings noiseSettings;
 
         private EntityManager entityManager;
         private EntityQuery noiseQuery;
         private EntityQuery mapQuery;
 
         public MapEditorSettings MapSettings { get => mapSettings; }
+        public NoiseEditorSettings NoiseSettings { get => noiseSettings; }
 
         /// <summary>   Starts this object. </summary>
         ///
@@ -43,9 +44,9 @@ namespace Assets.Scripts
             mapQuery = entityManager.CreateEntityQuery(typeof(MapSettings));
 
             entityManager.CreateEntity(typeof(NoiseSettings));
-            noiseQuery.SetSingleton(new NoiseSettings(0));
+            noiseQuery.SetSingleton(new NoiseSettings(noiseSettings));
             entityManager.CreateEntity(typeof(MapSettings));
-            mapQuery.SetSingleton(new MapSettings(mapSettings.levelOfDetail));
+            mapQuery.SetSingleton(new MapSettings(mapSettings));
 
             Tile.Generate(new HexCoordinates(-1, 0));
             Tile.Generate(new HexCoordinates(0, 0));
@@ -58,7 +59,8 @@ namespace Assets.Scripts
 
         public void Regenerate()
         {
-            mapQuery.SetSingleton(new MapSettings(mapSettings.levelOfDetail));
+            mapQuery.SetSingleton(new MapSettings(mapSettings));
+            noiseQuery.SetSingleton(new NoiseSettings(noiseSettings));
             BeginInitializationEntityCommandBufferSystem bufferSystem = World.Active.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
             EntityCommandBuffer.Concurrent commandBuffer = bufferSystem.CreateCommandBuffer().ToConcurrent();
 

@@ -1,19 +1,23 @@
-﻿using Unity.Entities;
+﻿using Assets.Scripts.Settings;
+using Unity.Entities;
 using Unity.Mathematics;
 
 namespace Assets.Scripts.Components
 {
     public struct NoiseSettings : IComponentData
     {
-        public int test;
+        public float amplitude;
+        public float frequency;
 
-        public NoiseSettings(int test)
+        public NoiseSettings(NoiseEditorSettings noiseSettings)
         {
-            this.test = test;
+            amplitude = noiseSettings.amplitude;
+            frequency = noiseSettings.frequency;
         }
+
         public float Evaluate(float2 position)
         {
-            return noise.snoise(position);
+            return noise.snoise(position * frequency) * amplitude;
         }
     }
 }

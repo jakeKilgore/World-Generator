@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Assets.Scripts.Settings;
+using Unity.Entities;
 
 namespace Assets.Scripts.Components
 {
@@ -6,9 +7,9 @@ namespace Assets.Scripts.Components
     {
         public int levelOfDetail;
 
-        public MapSettings(int numRings)
+        public MapSettings(MapEditorSettings mapSettings)
         {
-            levelOfDetail = numRings;
+            levelOfDetail = mapSettings.levelOfDetail;
         }
     }
 }
