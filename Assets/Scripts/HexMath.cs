@@ -4,8 +4,10 @@
 // summary:	Implements the hexadecimal mathematics class
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using Assets.Scripts.Components;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Scripts {
@@ -14,6 +16,24 @@ namespace Assets.Scripts {
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
     public static class HexMath {
+
+        public static readonly float WidthMultiple = math.sqrt(3);
+        public static readonly float HeightMultiple = 2F;
+
+        /// <summary>   Returns the location of the hex in the worldspace. </summary>
+        ///
+        /// <remarks>   The Vitulus, 8/13/2019. </remarks>
+        ///
+        /// <returns>   A float2 position in the worldspace. </returns>
+        public static float2 Position(HexCoordinates coordinate)
+        {
+            float height = HeightMultiple;
+            float width = WidthMultiple;
+            float posX = WidthMultiple * (coordinate.column + (coordinate.row / 2f));
+            float posY = HeightMultiple * 3 / 4 * coordinate.row;
+
+            return new float2(posX, posY);
+        }
 
         /// <summary>   Check the number of vertices in the hexagon. </summary>
         ///

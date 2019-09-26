@@ -19,14 +19,14 @@ namespace Assets.Scripts.Systems.Render.Jobs
         [WriteOnly] BufferFromEntity<Vertex> vertexBuffers;
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<UV> uvBuffers;
-        readonly NoiseSettings noise;
-        readonly MapSettings mapData;
+        readonly NoiseSettings noiseSettings;
+        readonly MapSettings mapSettings;
 
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noise, MapSettings mapData) {
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings) {
             this.vertexBuffers = vertexBuffers;
             this.uvBuffers = uvBuffers;
-            this.noise = noise;
-            this.mapData = mapData;
+            this.noiseSettings = noiseSettings;
+            this.mapSettings = mapSettings;
         }
 
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
@@ -34,23 +34,23 @@ namespace Assets.Scripts.Systems.Render.Jobs
             vertices.Clear();
             DynamicBuffer<UV> uvs = uvBuffers[entity];
             uvs.Clear();
-            float2 position = coordinates.Position();
+            float2 position = HexMath.Position(coordinates);
             vertices.Add(DrawVertex(position));
-            uvs.Add((Vector2) position);
-            for (int currentRing = 1; currentRing <= mapData.levelOfDetail; currentRing++) {
-                DrawRing(vertices, uvs, currentRing, position, mapData.levelOfDetail);
+            uvs.Add(new Vector2(.5f, .5f));
+            for (int currentRing = 1; currentRing <= mapSettings.levelOfDetail; currentRing++) {
+                DrawRing(vertices, uvs, currentRing, position);
             }
         }
 
-        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position, int numRings) {
+        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position) {
             int verticesInRing = HexMath.CheckVerticesInLayer(currentRing);
             float arcBetweenPoints = FindArc(verticesInRing);
             float angle = math.PI / 2;
             for (int i = 0; i < verticesInRing; i++) {
-                float distanceMultiple = FindDistance(currentRing, angle, numRings);
-                float2 point = FindPoint(angle, distanceMultiple, position);
-                vertices.Add(DrawVertex(point));
-                uvs.Add((Vector2)point);
+                float distanceMultiple = FindDistance(currentRing, angle);
+                float2 point = FindPoint(angle, distanceMultiple);
+                vertices.Add(DrawVertex(position + point));
+                uvs.Add(ProjectPoint(point));
                 angle += arcBetweenPoints;
             }
         }
@@ -59,8 +59,8 @@ namespace Assets.Scripts.Systems.Render.Jobs
             return -2 * math.PI / verticesInRing;
         }
 
-        private float FindDistance(int currentRing, float angle, int numRings) {
-            float hypotenuse = (float)currentRing / numRings;
+        private float FindDistance(int currentRing, float angle) {
+            float hypotenuse = (float)currentRing / mapSettings.levelOfDetail;
             float interiorAngle = math.radians(30);
             angle = (2 * math.PI + angle) % math.radians(60);
             if (angle > interiorAngle) {
@@ -69,14 +69,26 @@ namespace Assets.Scripts.Systems.Render.Jobs
             return hypotenuse * math.cos(interiorAngle) / math.cos(angle);
         }
 
-        private float2 FindPoint(float angle, float distance, float2 position) {
-            float pointX = position.x + distance * math.cos(angle);
-            float pointY = position.y + distance * math.sin(angle);
+        private float2 FindPoint(float angle, float distance) {
+            float pointX = distance * math.cos(angle);
+            float pointY = distance * math.sin(angle);
             return new float2(pointX, pointY);
         }
 
         private Vector3 DrawVertex(float2 point) {
-            return new Vector3(point.x, noise.Evaluate(point), point.y);
+            point *= mapSettings.scale;
+            return new Vector3(point.x, Noise.Evaluate(point, noiseSettings), point.y);
+        }
+
+        private Vector2 ProjectPoint(float2 point)
+        {
+            float maxX = HexMath.WidthMultiple;
+            float minX = -HexMath.WidthMultiple;
+            float maxY = HexMath.HeightMultiple;
+            float minY = -HexMath.HeightMultiple;
+            float x = (point.x - minX) / (maxX - minX);
+            float y = (point.y - minY) / (maxY - minY);
+            return new Vector2(x, y);
         }
     }
 }

@@ -20,19 +20,5 @@ namespace Assets.Scripts.Components
             amplitudeScale = noiseSettings.amplitudeScale;
             frequencyScale = noiseSettings.frequencyScale;
         }
-
-        public float Evaluate(float2 position)
-        {
-            float height = 0;
-            float curAmplitude = amplitude;
-            float curFrequency = frequency;
-            for (int i = 0; i < octaves; i++)
-            {
-                height += noise.snoise(position * curFrequency) * curAmplitude;
-                curAmplitude *= amplitudeScale;
-                curFrequency *= frequencyScale;
-            }
-            return height;
-        }
     }
 }
