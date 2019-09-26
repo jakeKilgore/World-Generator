@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Map Settings
   m_EditorClassIdentifier: 
   foldout: 1
-  levelOfDetail: 37
+  levelOfDetail: 100

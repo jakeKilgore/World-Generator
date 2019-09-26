@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: Noise Settings
   m_EditorClassIdentifier: 
   foldout: 1
-  amplitude: 0.08
-  frequency: 2
+  amplitude: 0.15
+  frequency: 0.44
+  ocataves: 8
+  amplitudeScale: 0.469
+  frequencyScale: 2

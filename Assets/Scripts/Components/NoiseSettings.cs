@@ -8,16 +8,31 @@ namespace Assets.Scripts.Components
     {
         public float amplitude;
         public float frequency;
+        public int octaves;
+        public float amplitudeScale;
+        public float frequencyScale;
 
         public NoiseSettings(NoiseEditorSettings noiseSettings)
         {
             amplitude = noiseSettings.amplitude;
             frequency = noiseSettings.frequency;
+            octaves = noiseSettings.ocataves;
+            amplitudeScale = noiseSettings.amplitudeScale;
+            frequencyScale = noiseSettings.frequencyScale;
         }
 
         public float Evaluate(float2 position)
         {
-            return noise.snoise(position * frequency) * amplitude;
+            float height = 0;
+            float curAmplitude = amplitude;
+            float curFrequency = frequency;
+            for (int i = 0; i < octaves; i++)
+            {
+                height += noise.snoise(position * curFrequency) * curAmplitude;
+                curAmplitude *= amplitudeScale;
+                curFrequency *= frequencyScale;
+            }
+            return height;
         }
     }
 }
