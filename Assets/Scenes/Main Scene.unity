@@ -248,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapSettings: {fileID: 11400000, guid: bc538088447060e40bde85b867d05c94, type: 2}
   noiseSettings: {fileID: 11400000, guid: b2e7b20293a675e46a2b793d1a6e5a3f, type: 2}
-  groundMaterial: {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  groundMaterial: {fileID: 2100000, guid: 46d7d399e94c81e41a5090244a769bf9, type: 2}
 --- !u!4 &706262309
 Transform:
   m_ObjectHideFlags: 0
