@@ -16,38 +16,43 @@ namespace Assets.Scripts.Systems.Render.Jobs
     public struct GenerateVerticesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]
-        [WriteOnly] BufferFromEntity<Vertex> entityBuffers;
+        [WriteOnly] BufferFromEntity<Vertex> vertexBuffers;
+        [NativeDisableParallelForRestriction]
+        [WriteOnly] BufferFromEntity<UV> uvBuffers;
         readonly NoiseSettings noise;
         readonly MapSettings mapData;
 
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> entityBuffers, NoiseSettings noise, MapSettings mapData) {
-            this.entityBuffers = entityBuffers;
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noise, MapSettings mapData) {
+            this.vertexBuffers = vertexBuffers;
+            this.uvBuffers = uvBuffers;
             this.noise = noise;
             this.mapData = mapData;
         }
 
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
-            DynamicBuffer<Vertex> vertices = entityBuffers[entity];
+            DynamicBuffer<Vertex> vertices = vertexBuffers[entity];
             vertices.Clear();
+            DynamicBuffer<UV> uvs = uvBuffers[entity];
+            uvs.Clear();
             float2 position = coordinates.Position();
             vertices.Add(DrawVertex(position));
-            int vertexIndex = 1;
+            uvs.Add((Vector2) position);
             for (int currentRing = 1; currentRing <= mapData.levelOfDetail; currentRing++) {
-                vertexIndex = DrawRing(vertices, currentRing, vertexIndex, position, mapData.levelOfDetail);
+                DrawRing(vertices, uvs, currentRing, position, mapData.levelOfDetail);
             }
         }
 
-        private int DrawRing(DynamicBuffer<Vertex> vertices, int currentRing, int vertexIndex, float2 position, int numRings) {
+        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position, int numRings) {
             int verticesInRing = HexMath.CheckVerticesInLayer(currentRing);
             float arcBetweenPoints = FindArc(verticesInRing);
             float angle = math.PI / 2;
-            for (int i = vertexIndex; i < vertexIndex + verticesInRing; i++) {
+            for (int i = 0; i < verticesInRing; i++) {
                 float distanceMultiple = FindDistance(currentRing, angle, numRings);
                 float2 point = FindPoint(angle, distanceMultiple, position);
                 vertices.Add(DrawVertex(point));
+                uvs.Add((Vector2)point);
                 angle += arcBetweenPoints;
             }
-            return vertexIndex + verticesInRing;
         }
 
         private float FindArc(int verticesInRing) {

@@ -13,20 +13,18 @@ namespace Assets.Scripts.Systems.Render
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public class GenerateMesh : ComponentSystem
     {
-        EntityQueryBuilder.F_ESBB<RenderMesh, Vertex, Triangle> assignMesh;
-        Material material;
+        EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, Triangle, UV> assignMesh;
 
         protected override void OnCreate() {
             base.OnCreate();
             assignMesh = AssignMesh;
-            material = new Material(Shader.Find("Standard"));
         }
 
         protected override void OnUpdate() {
             Entities.WithNone<HasMesh>().ForEach(assignMesh);
         }
 
-        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<Triangle> triangles) {
+        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<Triangle> triangles, DynamicBuffer<UV> uvs) {
             meshComponent.mesh.Clear();
             if (vertices.Length == 0) {
                 return;
@@ -36,9 +34,16 @@ namespace Assets.Scripts.Systems.Render
             ListExtensions.AddRange(vertexList, vertices.Reinterpret<Vector3>());
             List<int> triangleList = new List<int>();
             ListExtensions.AddRange(triangleList, triangles.Reinterpret<int>());
+            List<Vector2> uvList = new List<Vector2>();
+            ListExtensions.AddRange(uvList, uvs.Reinterpret<Vector2>());
             meshComponent.mesh.SetVertices(vertexList);
             meshComponent.mesh.SetTriangles(triangleList, 0);
-            meshComponent.material = material;
+            meshComponent.mesh.SetUVs(0, uvList);
+            meshComponent.mesh.RecalculateBounds();
+            meshComponent.mesh.RecalculateNormals();
+            meshComponent.mesh.RecalculateTangents();
+            meshComponent.receiveShadows = true;
+            meshComponent.castShadows = UnityEngine.Rendering.ShadowCastingMode.On;
             
             PostUpdateCommands.SetSharedComponent(entity, meshComponent);
             PostUpdateCommands.AddComponent(entity, typeof(HasMesh));

@@ -14,6 +14,7 @@
     "com.unity.ide.vscode": "1.0.7",
     "com.unity.jobs": "0.1.1-preview",
     "com.unity.purchasing": "2.0.6",
+    "com.unity.render-pipelines.high-definition": "7.0.1",
     "com.unity.rendering.hybrid": "0.1.1-preview",
     "com.unity.test-framework": "1.0.18",
     "com.unity.textmeshpro": "2.0.1",
@@ -52,13 +53,13 @@
     "com.unity.modules.xr": "1.0.0"
   },
   "lock": {
-    "com.bovinelabs.naughtyattributes": {
-      "revision": "HEAD",
-      "hash": "3066ded4f3047463e3864b1af688f574cb3728b5"
-    },
     "com.bovinelabs.entities": {
       "revision": "HEAD",
       "hash": "87ac3d5864f0d4e4bc842f7d8ef1c04b3c7a883b"
+    },
+    "com.bovinelabs.naughtyattributes": {
+      "revision": "HEAD",
+      "hash": "3066ded4f3047463e3864b1af688f574cb3728b5"
     }
   }
 }

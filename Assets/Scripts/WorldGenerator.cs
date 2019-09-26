@@ -26,6 +26,7 @@ namespace Assets.Scripts
     {
         public MapEditorSettings mapSettings;
         public NoiseEditorSettings noiseSettings;
+        public Material groundMaterial;
 
         private EntityManager entityManager;
         private EntityQuery noiseQuery;
@@ -48,13 +49,13 @@ namespace Assets.Scripts
             entityManager.CreateEntity(typeof(MapSettings));
             mapQuery.SetSingleton(new MapSettings(mapSettings));
 
-            Tile.Generate(new HexCoordinates(-1, 0));
-            Tile.Generate(new HexCoordinates(0, 0));
-            Tile.Generate(new HexCoordinates(1, 0));
-            Tile.Generate(new HexCoordinates(0, -1));
-            Tile.Generate(new HexCoordinates(0, 1));
-            Tile.Generate(new HexCoordinates(1, -1));
-            Tile.Generate(new HexCoordinates(-1, 1));
+            Tile.Generate(new HexCoordinates(-1, 0), groundMaterial);
+            Tile.Generate(new HexCoordinates(0, 0), groundMaterial);
+            Tile.Generate(new HexCoordinates(1, 0), groundMaterial);
+            Tile.Generate(new HexCoordinates(0, -1), groundMaterial);
+            Tile.Generate(new HexCoordinates(0, 1), groundMaterial);
+            Tile.Generate(new HexCoordinates(1, -1), groundMaterial);
+            Tile.Generate(new HexCoordinates(-1, 1), groundMaterial);
         }
 
         public void Regenerate()

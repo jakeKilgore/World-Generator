@@ -25,7 +25,8 @@ namespace Assets.Scripts.Systems.Render
             MapSettings mapData = GetSingleton<MapSettings>();
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
-            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, noise, mapData);
+            BufferFromEntity<UV> uvBuffers = GetBufferFromEntity<UV>();
+            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, uvBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<Triangle> triangleBuffers = GetBufferFromEntity<Triangle>();

@@ -13,24 +13,23 @@ namespace Assets.Scripts.Systems.Render.Jobs
     public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         [NativeDisableParallelForRestriction]
-        [WriteOnly] BufferFromEntity<Triangle> entityBuffers;
+        [WriteOnly] BufferFromEntity<Triangle> triangleBuffers;
         readonly MapSettings mapData;
 
-        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> entityBuffers, MapSettings mapData) {
-            this.entityBuffers = entityBuffers;
+        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> triangleBuffers, MapSettings mapData) {
+            this.triangleBuffers = triangleBuffers;
             this.mapData = mapData;
         }
 
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
-            DynamicBuffer<Triangle> triangles = entityBuffers[entity];
+            DynamicBuffer<Triangle> triangles = triangleBuffers[entity];
             triangles.Clear();
-            int triangleIndex = 0;
             for (int currentLayer = 1; currentLayer <= mapData.levelOfDetail; currentLayer++) {
-                triangleIndex += DrawRing(triangles, currentLayer, triangleIndex);
+                DrawRing(triangles, currentLayer);
             }
         }
 
-        private int DrawRing(DynamicBuffer<Triangle> triangles, int currentRing, int triangleIndex) {
+        private void DrawRing(DynamicBuffer<Triangle> triangles, int currentRing) {
             int startNode = HexMath.CheckVerticesInHex(currentRing - 2) - 1;
             int endNode = HexMath.CheckVerticesInHex(currentRing - 1) - 1;
             if (currentRing != 1) {
@@ -40,7 +39,6 @@ namespace Assets.Scripts.Systems.Render.Jobs
             int startVertex = endNode + 1;
             int endVertex = HexMath.CheckVerticesInHex(currentRing) - 1;
 
-            int trianglesDrawn = 0;
             int currentVertex = startVertex;
             for (int currentNode = startNode; currentNode <= endNode; currentNode++) {
                 int trianglesPerNode = TrianglesPerNode(currentNode, startNode, endNode);
@@ -55,7 +53,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
                         vertex2 = currentRing == 1 ? startVertex : startNode;
                     }
 
-                    trianglesDrawn += DrawTriangle(triangles, currentNode, vertex1, vertex2);
+                    DrawTriangle(triangles, currentNode, vertex1, vertex2);
 
                     currentVertex++;
                 }
@@ -66,15 +64,13 @@ namespace Assets.Scripts.Systems.Render.Jobs
                         vertex2 = startNode;
                     }
 
-                    trianglesDrawn += DrawTriangle(triangles, currentNode, vertex1, vertex2);
+                    DrawTriangle(triangles, currentNode, vertex1, vertex2);
 
                     if (currentNode == endNode) {
-                        trianglesDrawn += DrawTriangle(triangles, startNode, endVertex, startVertex);
+                        DrawTriangle(triangles, startNode, endVertex, startVertex);
                     }
                 }
             }
-
-            return trianglesDrawn;
         }
 
         private int TrianglesPerNode(int currentNode, int startNode, int endNode) {
@@ -101,11 +97,10 @@ namespace Assets.Scripts.Systems.Render.Jobs
             return false;
         }
 
-        private int DrawTriangle(DynamicBuffer<Triangle> triangles, int currentNode, int vertex1, int vertex2) {
+        private void DrawTriangle(DynamicBuffer<Triangle> triangles, int currentNode, int vertex1, int vertex2) {
             triangles.Add(currentNode);
             triangles.Add(vertex1);
             triangles.Add(vertex2);
-            return 3;
         }
     }
 }

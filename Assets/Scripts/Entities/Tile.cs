@@ -39,6 +39,7 @@ namespace Assets.Scripts.Entities
             typeof(HexCoordinates),
             typeof(IsTile),
             typeof(Triangle),
+            typeof(UV),
             typeof(Vertex)
         );
 
@@ -47,12 +48,13 @@ namespace Assets.Scripts.Entities
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
         /// <param name="noiseFilter">  A filter specifying the noise. </param>
-        public static void Generate(HexCoordinates coordinates)
+        public static void Generate(HexCoordinates coordinates, Material groundMaterial)
         {
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
-                mesh = new Mesh()
+                mesh = new Mesh(),
+                material = groundMaterial
             });
         }
     }
