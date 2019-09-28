@@ -43,11 +43,11 @@ namespace Assets.Scripts.Systems.Render
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
             BufferFromEntity<UV> uvBuffers = GetBufferFromEntity<UV>();
-            GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, uvBuffers, noise, mapData);
+            GenerateMeshVerticesAndUVs vertices = new GenerateMeshVerticesAndUVs(vertexBuffers, uvBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<TrianglePoint> triangleBuffers = GetBufferFromEntity<TrianglePoint>();
-            GenerateTrianglesBuffer triangles = new GenerateTrianglesBuffer(triangleBuffers, mapData);
+            GenerateMeshTriangles triangles = new GenerateMeshTriangles(triangleBuffers, mapData);
             JobHandle triangleJob = triangles.Schedule(this, inputDeps);
 
             JobHandle jobs = JobHandle.CombineDependencies(vertexJob, triangleJob);

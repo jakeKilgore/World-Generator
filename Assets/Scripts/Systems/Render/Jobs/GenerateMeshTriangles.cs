@@ -16,7 +16,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(TrianglePoint))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
+    public struct GenerateMeshTriangles : IJobForEachWithEntity<HexCoordinates>
     {
         /// <summary>   A collection of TrianglePoint dynamic buffers. </summary>
         [NativeDisableParallelForRestriction]
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         ///
         /// <param name="triangleBuffers">  The triangle buffers. </param>
         /// <param name="mapSettings">      The map settings. </param>
-        public GenerateTrianglesBuffer(BufferFromEntity<TrianglePoint> triangleBuffers, MapSettings mapSettings)
+        public GenerateMeshTriangles(BufferFromEntity<TrianglePoint> triangleBuffers, MapSettings mapSettings)
         {
             this.triangleBuffers = triangleBuffers;
             this.mapSettings = mapSettings;

@@ -13,13 +13,13 @@ using UnityEngine;
 
 namespace Assets.Scripts.Systems.Render.Jobs
 {
-    /// <summary>   Buffer for generate vertices. </summary>
+    /// <summary>   A job for generating the vertices and UVs for a mesh. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Vertex))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateVerticesBuffer : IJobForEachWithEntity<HexCoordinates>
+    public struct GenerateMeshVerticesAndUVs : IJobForEachWithEntity<HexCoordinates>
     {
         /// <summary>   The vertex buffers. </summary>
         [NativeDisableParallelForRestriction]
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="uvBuffers">        The uv buffers. </param>
         /// <param name="noiseSettings">    The noise settings. </param>
         /// <param name="mapSettings">      The map settings. </param>
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings)
+        public GenerateMeshVerticesAndUVs(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings)
         {
             this.vertexBuffers = vertexBuffers;
             this.uvBuffers = uvBuffers;
