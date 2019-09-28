@@ -33,7 +33,7 @@ namespace Assets.Scripts.Jobs
         ///
         /// <param name="entity">   The entity. </param>
         /// <param name="index">    Zero-based index of the entity. </param>
-        /// <param name="meshFlag"> A flag marking that the entity has a mesh. </param>
+        /// <param name="meshFlag"> [in,out] A flag marking that the entity has a mesh. </param>
         public void Execute(Entity entity, int index, [ReadOnly] ref HasMesh meshFlag)
         {
             commandBuffer.RemoveComponent<HasMesh>(index, entity);
