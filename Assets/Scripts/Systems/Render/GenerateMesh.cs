@@ -64,8 +64,6 @@ namespace Assets.Scripts.Systems.Render
             meshComponent.mesh.RecalculateBounds();
             meshComponent.mesh.RecalculateNormals();
             meshComponent.mesh.RecalculateTangents();
-            //meshComponent.receiveShadows = true;
-            //meshComponent.castShadows = UnityEngine.Rendering.ShadowCastingMode.On;
             
             PostUpdateCommands.SetSharedComponent(entity, meshComponent);
             PostUpdateCommands.AddComponent(entity, typeof(HasMesh));

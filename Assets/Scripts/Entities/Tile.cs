@@ -54,8 +54,10 @@ namespace Assets.Scripts.Entities
             entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
                 mesh = new Mesh(),
-                material = groundMaterial
-            });
+                material = groundMaterial,
+                receiveShadows = true,
+                castShadows = UnityEngine.Rendering.ShadowCastingMode.On
+        });
         }
     }
 }
