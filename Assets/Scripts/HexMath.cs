@@ -17,12 +17,16 @@ namespace Assets.Scripts {
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
     public static class HexMath {
 
+        /// <summary>   The width multiple. </summary>
         public static readonly float WidthMultiple = math.sqrt(3);
+        /// <summary>   The height multiple. </summary>
         public static readonly float HeightMultiple = 2F;
 
         /// <summary>   Returns the location of the hex in the worldspace. </summary>
         ///
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
+        ///
+        /// <param name="coordinate">   The coordinate. </param>
         ///
         /// <returns>   A float2 position in the worldspace. </returns>
         public static float2 Position(HexCoordinates coordinate)

@@ -22,7 +22,6 @@ using Assets.Scripts.Settings;
 
 namespace Assets.Scripts.Entities
 {
-
     /// <summary>   A factory class for generating tile entities. </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
@@ -47,7 +46,8 @@ namespace Assets.Scripts.Entities
         ///
         /// <remarks>   The Vitulus, 8/13/2019. </remarks>
         ///
-        /// <param name="noiseFilter">  A filter specifying the noise. </param>
+        /// <param name="coordinates">      A filter specifying the noise. </param>
+        /// <param name="groundMaterial">   The ground material. </param>
         public static void Generate(HexCoordinates coordinates, Material groundMaterial)
         {
             Entity tile = entityManager.CreateEntity(archetype);

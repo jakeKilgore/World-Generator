@@ -28,6 +28,12 @@ namespace Assets.Scripts.Components {
         /// <summary>   The offset. </summary>
         public int offset;
 
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="column">   The column. </param>
+        /// <param name="row">      The row. </param>
         public HexCoordinates(int column, int row)
         {
             this.column = column;

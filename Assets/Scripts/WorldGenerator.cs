@@ -18,21 +18,33 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts
 {
-
     /// <summary>   A world generator. </summary>
     ///
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
     public class WorldGenerator : MonoBehaviour
     {
+        /// <summary>   The map settings. </summary>
         public MapEditorSettings mapSettings;
+        /// <summary>   The noise settings. </summary>
         public NoiseEditorSettings noiseSettings;
+        /// <summary>   The ground material. </summary>
         public Material groundMaterial;
 
+        /// <summary>   Manager for entity. </summary>
         private EntityManager entityManager;
+        /// <summary>   The noise query. </summary>
         private EntityQuery noiseQuery;
+        /// <summary>   The map query. </summary>
         private EntityQuery mapQuery;
 
+        /// <summary>   Gets the map settings. </summary>
+        ///
+        /// <value> The map settings. </value>
         public MapEditorSettings MapSettings { get => mapSettings; }
+
+        /// <summary>   Gets the noise settings. </summary>
+        ///
+        /// <value> The noise settings. </value>
         public NoiseEditorSettings NoiseSettings { get => noiseSettings; }
 
         /// <summary>   Starts this object. </summary>
@@ -58,6 +70,9 @@ namespace Assets.Scripts
             Tile.Generate(new HexCoordinates(-1, 1), groundMaterial);
         }
 
+        /// <summary>   Regenerates this object. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         public void Regenerate()
         {
             mapQuery.SetSingleton(new MapSettings(mapSettings));

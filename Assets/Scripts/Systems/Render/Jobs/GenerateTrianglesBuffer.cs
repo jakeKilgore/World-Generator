@@ -1,4 +1,7 @@
-﻿using Unity.Burst;
+﻿// file:	Assets\Scripts\Systems\Render\Jobs\GenerateTrianglesBuffer.cs
+//
+// summary:	Implements the generate triangles buffer class
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Assets.Scripts.Components.Flags;
@@ -7,20 +10,38 @@ using Assets.Scripts.Components.BufferElements;
 
 namespace Assets.Scripts.Systems.Render.Jobs
 {
+    /// <summary>   Buffer for generate triangles. </summary>
+    ///
+    /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Triangle))]
     [ExcludeComponent(typeof(HasMesh))]
     public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
+        /// <summary>   The triangle buffers. </summary>
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<Triangle> triangleBuffers;
+        /// <summary>   Information describing the map. </summary>
         readonly MapSettings mapData;
 
+        /// <summary>   Constructor. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="triangleBuffers">  The triangle buffers. </param>
+        /// <param name="mapData">          Information describing the map. </param>
         public GenerateTrianglesBuffer(BufferFromEntity<Triangle> triangleBuffers, MapSettings mapData) {
             this.triangleBuffers = triangleBuffers;
             this.mapData = mapData;
         }
 
+        /// <summary>   Executes. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="entity">       The entity. </param>
+        /// <param name="index">        Zero-based index of the. </param>
+        /// <param name="coordinates">  [in,out] The coordinates. </param>
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
             DynamicBuffer<Triangle> triangles = triangleBuffers[entity];
             triangles.Clear();
@@ -29,6 +50,12 @@ namespace Assets.Scripts.Systems.Render.Jobs
             }
         }
 
+        /// <summary>   Draw ring. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="triangles">    The triangles. </param>
+        /// <param name="currentRing">  The current ring. </param>
         private void DrawRing(DynamicBuffer<Triangle> triangles, int currentRing) {
             int startNode = HexMath.CheckVerticesInHex(currentRing - 2) - 1;
             int endNode = HexMath.CheckVerticesInHex(currentRing - 1) - 1;
@@ -73,6 +100,15 @@ namespace Assets.Scripts.Systems.Render.Jobs
             }
         }
 
+        /// <summary>   Triangles per node. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="currentNode">  The current node. </param>
+        /// <param name="startNode">    The start node. </param>
+        /// <param name="endNode">      The end node. </param>
+        ///
+        /// <returns>   An int. </returns>
         private int TrianglesPerNode(int currentNode, int startNode, int endNode) {
             if (currentNode == 0) {
                 return 6;
@@ -84,6 +120,15 @@ namespace Assets.Scripts.Systems.Render.Jobs
             }
         }
 
+        /// <summary>   Query if 'currentNode' is corner node. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="currentNode">  The current node. </param>
+        /// <param name="startNode">    The start node. </param>
+        /// <param name="endNode">      The end node. </param>
+        ///
+        /// <returns>   True if corner node, false if not. </returns>
         private bool IsCornerNode(int currentNode, int startNode, int endNode) {
             int range = endNode - (startNode - 1);
             if (range == 0) {
@@ -97,6 +142,14 @@ namespace Assets.Scripts.Systems.Render.Jobs
             return false;
         }
 
+        /// <summary>   Draw triangle. </summary>
+        ///
+        /// <remarks>   The Vitulus, 9/28/2019. </remarks>
+        ///
+        /// <param name="triangles">    The triangles. </param>
+        /// <param name="currentNode">  The current node. </param>
+        /// <param name="vertex1">      The first vertex. </param>
+        /// <param name="vertex2">      The second vertex. </param>
         private void DrawTriangle(DynamicBuffer<Triangle> triangles, int currentNode, int vertex1, int vertex2) {
             triangles.Add(currentNode);
             triangles.Add(vertex1);
