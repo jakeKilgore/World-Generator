@@ -23,26 +23,26 @@ namespace Assets.Scripts
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
     public class WorldGenerator : MonoBehaviour
     {
-        /// <summary>   The map settings. </summary>
+        /// <summary>   The map settings changeable in the editor menu. </summary>
         public MapEditorSettings mapSettings;
-        /// <summary>   The noise settings. </summary>
+        /// <summary>   The noise settings changeable in the editor menu. </summary>
         public NoiseEditorSettings noiseSettings;
         /// <summary>   The ground material. </summary>
         public Material groundMaterial;
 
-        /// <summary>   Manager for entity. </summary>
+        /// <summary>   The active world's entity manager. </summary>
         private EntityManager entityManager;
-        /// <summary>   The noise query. </summary>
+        /// <summary>   An entity query for modifying the NoiseSettings singleton. </summary>
         private EntityQuery noiseQuery;
-        /// <summary>   The map query. </summary>
+        /// <summary>   An entity query for modifying the MapSettings singleton. </summary>
         private EntityQuery mapQuery;
 
-        /// <summary>   Gets the map settings. </summary>
+        /// <summary>   Gets the current map settings. </summary>
         ///
         /// <value> The map settings. </value>
         public MapEditorSettings MapSettings { get => mapSettings; }
 
-        /// <summary>   Gets the noise settings. </summary>
+        /// <summary>   Gets the current noise settings. </summary>
         ///
         /// <value> The noise settings. </value>
         public NoiseEditorSettings NoiseSettings { get => noiseSettings; }
@@ -70,7 +70,7 @@ namespace Assets.Scripts
             Tile.Generate(new HexCoordinates(-1, 1), groundMaterial);
         }
 
-        /// <summary>   Regenerates this object. </summary>
+        /// <summary>   Regenerates the world map. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         public void Regenerate()
