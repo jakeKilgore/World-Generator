@@ -9,7 +9,7 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Jobs
 {
-    /// <summary>   A clear meshes. </summary>
+    /// <summary>   A job that clears all meshes from entities that have meshes. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     public struct ClearMeshes : IJobForEachWithEntity<HasMesh>
@@ -27,14 +27,14 @@ namespace Assets.Scripts.Jobs
             this.commandBuffer = commandBuffer;
         }
 
-        /// <summary>   Executes. </summary>
+        /// <summary>   Executes the job. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="entity">   The entity. </param>
-        /// <param name="index">    Zero-based index of the. </param>
-        /// <param name="c0">       [in,out] The c 0. </param>
-        public void Execute(Entity entity, int index, [ReadOnly] ref HasMesh c0)
+        /// <param name="index">    Zero-based index of the entity. </param>
+        /// <param name="meshFlag"> A flag marking that the entity has a mesh. </param>
+        public void Execute(Entity entity, int index, [ReadOnly] ref HasMesh meshFlag)
         {
             commandBuffer.RemoveComponent<HasMesh>(index, entity);
         }
