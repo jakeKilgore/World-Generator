@@ -6,21 +6,21 @@ using Unity.Entities;
 
 namespace Assets.Scripts.Components
 {
-    /// <summary>   A map settings. </summary>
+    /// <summary>   The map settings of the world. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     public struct MapSettings : IComponentData
     {
-        /// <summary>   The level of detail. </summary>
+        /// <summary>   The level of detail for all tiles. </summary>
         public int levelOfDetail;
-        /// <summary>   The scale. </summary>
+        /// <summary>   The scale of the tiles. </summary>
         public float scale;
 
         /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
-        /// <param name="mapSettings">  The map settings. </param>
+        /// <param name="mapSettings">  The map settings set in the editor. </param>
         public MapSettings(MapEditorSettings mapSettings)
         {
             levelOfDetail = mapSettings.levelOfDetail;

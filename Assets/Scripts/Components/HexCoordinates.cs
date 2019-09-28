@@ -22,11 +22,26 @@ namespace Assets.Scripts.Components {
     {
 
         /// <summary>   The column. </summary>
-        public int column;
+        private readonly int column;
         /// <summary>   The row. </summary>
-        public int row;
+        private readonly int row;
         /// <summary>   The offset. </summary>
-        public int offset;
+        private readonly int offset;
+
+        /// <summary>   Gets the column. </summary>
+        ///
+        /// <value> The column. </value>
+        public int Column { get => column; }
+
+        /// <summary>   Gets the row. </summary>
+        ///
+        /// <value> The row. </value>
+        public int Row { get => row; }
+
+        /// <summary>   Gets the offset. </summary>
+        ///
+        /// <value> The offset. </value>
+        public int Offset { get => offset; }
 
         /// <summary>   Constructor. </summary>
         ///
@@ -38,7 +53,7 @@ namespace Assets.Scripts.Components {
         {
             this.column = column;
             this.row = row;
-            this.offset = -(column + row);
+            offset = -(column + row);
         }
     }
 }
