@@ -40,29 +40,35 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="uvBuffers">        The uv buffers. </param>
         /// <param name="noiseSettings">    The noise settings. </param>
         /// <param name="mapSettings">      The map settings. </param>
-        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings) {
+        public GenerateVerticesBuffer(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings)
+        {
             this.vertexBuffers = vertexBuffers;
             this.uvBuffers = uvBuffers;
             this.noiseSettings = noiseSettings;
             this.mapSettings = mapSettings;
         }
 
-        /// <summary>   Executes. </summary>
+        /// <summary>   Executes the job. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="entity">       The entity. </param>
-        /// <param name="index">        Zero-based index of the. </param>
-        /// <param name="coordinates">  [in,out] The coordinates. </param>
-        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
+        /// <param name="index">        Zero-based index of the entity. </param>
+        /// <param name="coordinates">  [in,out] The coordinates of the entity. </param>
+        public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates)
+        {
             DynamicBuffer<Vertex> vertices = vertexBuffers[entity];
             vertices.Clear();
+
             DynamicBuffer<UV> uvs = uvBuffers[entity];
             uvs.Clear();
+
             float2 position = HexMath.Position(coordinates);
             vertices.Add(DrawVertex(position));
             uvs.Add(new Vector2(.5f, .5f));
-            for (int currentRing = 1; currentRing <= mapSettings.levelOfDetail; currentRing++) {
+
+            for (int currentRing = 1; currentRing <= mapSettings.levelOfDetail; currentRing++)
+            {
                 DrawRing(vertices, uvs, currentRing, position);
             }
         }
@@ -75,57 +81,66 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="uvs">          The uvs. </param>
         /// <param name="currentRing">  The current ring. </param>
         /// <param name="position">     The position. </param>
-        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position) {
+        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position)
+        {
             int verticesInRing = HexMath.CheckVerticesInLayer(currentRing);
             float arcBetweenPoints = FindArc(verticesInRing);
             float angle = math.PI / 2;
-            for (int i = 0; i < verticesInRing; i++) {
+
+            for (int i = 0; i < verticesInRing; i++)
+            {
                 float distanceMultiple = FindDistance(currentRing, angle);
                 float2 point = FindPoint(angle, distanceMultiple);
+
                 vertices.Add(DrawVertex(position + point));
                 uvs.Add(ProjectPoint(point));
                 angle += arcBetweenPoints;
             }
         }
 
-        /// <summary>   Searches for the first arc. </summary>
+        /// <summary>   Searches for the arc between vertices. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
-        /// <param name="verticesInRing">   The vertices in ring. </param>
+        /// <param name="verticesInRing">   The number of vertices in the current ring. </param>
         ///
-        /// <returns>   The found arc. </returns>
-        private float FindArc(int verticesInRing) {
+        /// <returns>   The arc between vertices. </returns>
+        private float FindArc(int verticesInRing)
+        {
             return -2 * math.PI / verticesInRing;
         }
 
-        /// <summary>   Searches for the first distance. </summary>
+        /// <summary>   Searches for the distance between the center and the vertex. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="currentRing">  The current ring. </param>
         /// <param name="angle">        The angle. </param>
         ///
-        /// <returns>   The found distance. </returns>
-        private float FindDistance(int currentRing, float angle) {
+        /// <returns>   The distance to the vertex. </returns>
+        private float FindDistance(int currentRing, float angle)
+        {
             float hypotenuse = (float)currentRing / mapSettings.levelOfDetail;
             float interiorAngle = math.radians(30);
             angle = (2 * math.PI + angle) % math.radians(60);
-            if (angle > interiorAngle) {
+
+            if (angle > interiorAngle)
+            {
                 angle = math.radians(60) - angle;
             }
             return hypotenuse * math.cos(interiorAngle) / math.cos(angle);
         }
 
-        /// <summary>   Searches for the first point. </summary>
+        /// <summary>   Finds the vertex given an angle and a distance. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="angle">    The angle. </param>
         /// <param name="distance"> The distance. </param>
         ///
-        /// <returns>   The found point. </returns>
-        private float2 FindPoint(float angle, float distance) {
+        /// <returns>   The vertex. </returns>
+        private float2 FindPoint(float angle, float distance)
+        {
             float pointX = distance * math.cos(angle);
             float pointY = distance * math.sin(angle);
             return new float2(pointX, pointY);
@@ -137,19 +152,19 @@ namespace Assets.Scripts.Systems.Render.Jobs
         ///
         /// <param name="point">    The point. </param>
         ///
-        /// <returns>   A Vector3. </returns>
-        private Vector3 DrawVertex(float2 point) {
-            point *= mapSettings.scale;
-            return new Vector3(point.x, Noise.Evaluate(point, noiseSettings), point.y);
+        /// <returns>   A Vector3 representing the vertex. </returns>
+        private Vector3 DrawVertex(float2 point)
+        {
+            return new Vector3(point.x, Noise.Evaluate(point, noiseSettings), point.y) * mapSettings.scale;
         }
 
-        /// <summary>   Project point. </summary>
+        /// <summary>   Find the UV of a point. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="point">    The point. </param>
         ///
-        /// <returns>   A Vector2. </returns>
+        /// <returns>   A Vector2 representing the UV. </returns>
         private Vector2 ProjectPoint(float2 point)
         {
             float maxX = HexMath.WidthMultiple;
