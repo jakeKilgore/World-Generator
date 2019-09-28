@@ -9,14 +9,14 @@ using Unity.Mathematics;
 /// <remarks>   The Vitulus, 9/28/2019. </remarks>
 public class Noise
 {
-    /// <summary>   Evaluates. </summary>
+    /// <summary>   Evaluates the height at a point on a 2D plane in the world. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     ///
     /// <param name="position"> The position. </param>
     /// <param name="settings"> Options for controlling the operation. </param>
     ///
-    /// <returns>   A float. </returns>
+    /// <returns>   The height at the position. </returns>
     public static float Evaluate(float2 position, NoiseSettings settings)
     {
         float height = 0;
