@@ -23,16 +23,16 @@ namespace Assets.Scripts
     /// <remarks>   The Vitulus, 8/13/2019. </remarks>
     public class WorldGenerator : MonoBehaviour
     {
-        /// <summary>   The map settings. </summary>
+        /// <summary>   The map settings in the editor menu. </summary>
         public MapEditorSettings mapSettings;
-        /// <summary>   The noise settings. </summary>
+        /// <summary>   The noise settings in the editor menu. </summary>
         public NoiseEditorSettings noiseSettings;
         /// <summary>   The ground material. </summary>
         public Material groundMaterial;
 
-        /// <summary>   Manager for entity. </summary>
+        /// <summary>   The world's entity manager object. </summary>
         private EntityManager entityManager;
-        /// <summary>   The noise query. </summary>
+        /// <summary>   The an entity query for getting the noise singleton. </summary>
         private EntityQuery noiseQuery;
         /// <summary>   The map query. </summary>
         private EntityQuery mapQuery;
@@ -70,7 +70,7 @@ namespace Assets.Scripts
             Tile.Generate(new HexCoordinates(-1, 1), groundMaterial);
         }
 
-        /// <summary>   Regenerates this object. </summary>
+        /// <summary>   Regenerates this world map. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         public void Regenerate()

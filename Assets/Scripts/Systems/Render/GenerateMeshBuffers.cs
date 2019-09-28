@@ -13,19 +13,20 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Systems.Render
 {
-    /// <summary>   A buffer render. </summary>
+    /// <summary>   A system for generating the buffers for all entity meshes. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class BufferRender : JobComponentSystem
+    public class GenerateMeshBuffers : JobComponentSystem
     {
-        /// <summary>   The buffer system. </summary>
+        /// <summary>   The command buffer system. </summary>
         EndSimulationEntityCommandBufferSystem bufferSystem;
 
         /// <summary>   Executes the create action. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
-        protected override void OnCreate() {
+        protected override void OnCreate()
+        {
             base.OnCreateManager();
             bufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
@@ -36,8 +37,9 @@ namespace Assets.Scripts.Systems.Render
         ///
         /// <param name="inputDeps">    The input deps. </param>
         ///
-        /// <returns>   A JobHandle. </returns>
-        protected override JobHandle OnUpdate(JobHandle inputDeps) {
+        /// <returns>   A JobHandle containing the jobs that must be finished before updating again. </returns>
+        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        {
             NoiseSettings noise = GetSingleton<NoiseSettings>();
             MapSettings mapData = GetSingleton<MapSettings>();
 
