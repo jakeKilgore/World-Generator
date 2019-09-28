@@ -13,13 +13,13 @@ using Assets.Scripts.Components.Flags;
 
 namespace Assets.Scripts.Systems.Render
 {
-    /// <summary>   A system for turning the mesh buffers into mesh objects. </summary>
+    /// <summary>   A generate mesh. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class AssignBuffersToMesh : ComponentSystem
+    public class GenerateMesh : ComponentSystem
     {
-        /// <summary>   The assign mesh action. </summary>
+        /// <summary>   The assign mesh. </summary>
         EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, TrianglePoint, UV> assignMesh;
 
         /// <summary>   Executes the create action. </summary>
@@ -54,19 +54,18 @@ namespace Assets.Scripts.Systems.Render
 
             List<Vector3> vertexList = new List<Vector3>();
             ListExtensions.AddRange(vertexList, vertices.Reinterpret<Vector3>());
-
             List<int> triangleList = new List<int>();
             ListExtensions.AddRange(triangleList, triangles.Reinterpret<int>());
-
             List<Vector2> uvList = new List<Vector2>();
             ListExtensions.AddRange(uvList, uvs.Reinterpret<Vector2>());
-
             meshComponent.mesh.SetVertices(vertexList);
             meshComponent.mesh.SetTriangles(triangleList, 0);
             meshComponent.mesh.SetUVs(0, uvList);
             meshComponent.mesh.RecalculateBounds();
             meshComponent.mesh.RecalculateNormals();
             meshComponent.mesh.RecalculateTangents();
+            //meshComponent.receiveShadows = true;
+            //meshComponent.castShadows = UnityEngine.Rendering.ShadowCastingMode.On;
             
             PostUpdateCommands.SetSharedComponent(entity, meshComponent);
             PostUpdateCommands.AddComponent(entity, typeof(HasMesh));

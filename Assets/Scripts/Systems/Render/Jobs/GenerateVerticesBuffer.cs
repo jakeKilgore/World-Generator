@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Systems.Render.Jobs
 {
-    /// <summary>   A job for generating the vertices of a mesh. </summary>
+    /// <summary>   Buffer for generate vertices. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [BurstCompile]

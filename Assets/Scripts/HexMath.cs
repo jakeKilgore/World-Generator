@@ -15,8 +15,7 @@ namespace Assets.Scripts {
     /// <summary>   Mathematics for the hexagonal tile implementation. </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
-    public static class HexMath
-    {
+    public static class HexMath {
 
         /// <summary>   The width multiple. </summary>
         public static readonly float WidthMultiple = math.sqrt(3);
@@ -47,8 +46,7 @@ namespace Assets.Scripts {
         /// <param name="totalRings">   The number of rings in the hexagon. </param>
         ///
         /// <returns>   The number of vertices in the hexagon. </returns>
-        public static int CheckVerticesInHex(int totalRings)
-        {
+        public static int CheckVerticesInHex(int totalRings) {
             return 3 * totalRings * (totalRings + 1) + 1;
         }
 
@@ -59,8 +57,7 @@ namespace Assets.Scripts {
         /// <param name="currentRing">  The current ring. </param>
         ///
         /// <returns>   The number of vertices in the given ring. </returns>
-        public static int CheckVerticesInLayer(int currentRing)
-        {
+        public static int CheckVerticesInLayer(int currentRing) {
             return 6 * currentRing;
         }
 
@@ -71,8 +68,7 @@ namespace Assets.Scripts {
         /// <param name="totalLayers">  The number of rings in the hexagon. </param>
         ///
         /// <returns>   The number of triangles in the hexagon. </returns>
-        public static int CheckTrianglesInHex(int totalLayers)
-        {
+        public static int CheckTrianglesInHex(int totalLayers) {
             return totalLayers * (totalLayers + 1) * (totalLayers + 2);
         }
 
@@ -83,8 +79,7 @@ namespace Assets.Scripts {
         /// <param name="currentring">  The current ring. </param>
         ///
         /// <returns>   The number of triangles in the given ring. </returns>
-        public static int CheckTrianglesInLayer(int currentring)
-        {
+        public static int CheckTrianglesInLayer(int currentring) {
             return 3 * currentring * (currentring + 1);
         }
     }
