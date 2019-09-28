@@ -18,9 +18,15 @@ namespace Assets.Scripts.Components
         public float frequency;
         /// <summary>   The octaves. This is how many layers of noise will be applied to the map. </summary>
         public int octaves;
-        /// <summary>   The amplitude scale. This is how much the amplitude will change for each layer of noise. </summary>
+
+        /// <summary>
+        /// The amplitude scale. This is how much the amplitude will change for each layer of noise.
+        /// </summary>
         public float amplitudeScale;
-        /// <summary>   The frequency scale. This is how much the amplitude will change for each layer of noise. </summary>
+
+        /// <summary>
+        /// The frequency scale. This is how much the amplitude will change for each layer of noise.
+        /// </summary>
         public float frequencyScale;
 
         /// <summary>   Constructor. </summary>

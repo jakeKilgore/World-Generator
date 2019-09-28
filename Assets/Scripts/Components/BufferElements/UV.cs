@@ -9,9 +9,8 @@ namespace Assets.Scripts.Components.BufferElements
     /// <summary>
     /// An UV coordinate component for creating dynamic buffers.
     /// 
-    /// UV coordinates are used for texture unwrapping and
-    /// represent the position of the given vertex in the mesh relative to the position on a square
-    /// texture.
+    /// UV coordinates are used for texture unwrapping and represent the position of the given vertex
+    /// in the mesh relative to the position on a square texture.
     /// </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
