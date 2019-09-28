@@ -46,7 +46,7 @@ namespace Assets.Scripts.Systems.Render
             GenerateVerticesBuffer vertices = new GenerateVerticesBuffer(vertexBuffers, uvBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
-            BufferFromEntity<Triangle> triangleBuffers = GetBufferFromEntity<Triangle>();
+            BufferFromEntity<TrianglePoint> triangleBuffers = GetBufferFromEntity<TrianglePoint>();
             GenerateTrianglesBuffer triangles = new GenerateTrianglesBuffer(triangleBuffers, mapData);
             JobHandle triangleJob = triangles.Schedule(this, inputDeps);
 

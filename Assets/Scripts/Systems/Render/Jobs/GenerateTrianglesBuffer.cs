@@ -14,13 +14,13 @@ namespace Assets.Scripts.Systems.Render.Jobs
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [BurstCompile]
-    [RequireComponentTag(typeof(IsTile), typeof(Triangle))]
+    [RequireComponentTag(typeof(IsTile), typeof(TrianglePoint))]
     [ExcludeComponent(typeof(HasMesh))]
     public struct GenerateTrianglesBuffer : IJobForEachWithEntity<HexCoordinates>
     {
         /// <summary>   The triangle buffers. </summary>
         [NativeDisableParallelForRestriction]
-        [WriteOnly] BufferFromEntity<Triangle> triangleBuffers;
+        [WriteOnly] BufferFromEntity<TrianglePoint> triangleBuffers;
         /// <summary>   Information describing the map. </summary>
         readonly MapSettings mapData;
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         ///
         /// <param name="triangleBuffers">  The triangle buffers. </param>
         /// <param name="mapData">          Information describing the map. </param>
-        public GenerateTrianglesBuffer(BufferFromEntity<Triangle> triangleBuffers, MapSettings mapData) {
+        public GenerateTrianglesBuffer(BufferFromEntity<TrianglePoint> triangleBuffers, MapSettings mapData) {
             this.triangleBuffers = triangleBuffers;
             this.mapData = mapData;
         }
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="index">        Zero-based index of the. </param>
         /// <param name="coordinates">  [in,out] The coordinates. </param>
         public void Execute(Entity entity, int index, [ReadOnly] ref HexCoordinates coordinates) {
-            DynamicBuffer<Triangle> triangles = triangleBuffers[entity];
+            DynamicBuffer<TrianglePoint> triangles = triangleBuffers[entity];
             triangles.Clear();
             for (int currentLayer = 1; currentLayer <= mapData.levelOfDetail; currentLayer++) {
                 DrawRing(triangles, currentLayer);
@@ -56,7 +56,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         ///
         /// <param name="triangles">    The triangles. </param>
         /// <param name="currentRing">  The current ring. </param>
-        private void DrawRing(DynamicBuffer<Triangle> triangles, int currentRing) {
+        private void DrawRing(DynamicBuffer<TrianglePoint> triangles, int currentRing) {
             int startNode = HexMath.CheckVerticesInHex(currentRing - 2) - 1;
             int endNode = HexMath.CheckVerticesInHex(currentRing - 1) - 1;
             if (currentRing != 1) {
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="currentNode">  The current node. </param>
         /// <param name="vertex1">      The first vertex. </param>
         /// <param name="vertex2">      The second vertex. </param>
-        private void DrawTriangle(DynamicBuffer<Triangle> triangles, int currentNode, int vertex1, int vertex2) {
+        private void DrawTriangle(DynamicBuffer<TrianglePoint> triangles, int currentNode, int vertex1, int vertex2) {
             triangles.Add(currentNode);
             triangles.Add(vertex1);
             triangles.Add(vertex2);

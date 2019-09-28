@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Components.BufferElements
 {
-    /// <summary>   A vertex. </summary>
+    /// <summary>
+    /// A vertex component for creating dynamic buffers.
+    /// 
+    /// A vertex represents a point in 3D space and a mesh is represented as an array of vertices.
+    /// </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [InternalBufferCapacity(1)]
@@ -32,14 +36,14 @@ namespace Assets.Scripts.Components.BufferElements
         /// <returns>   The result of the operation. </returns>
         public static implicit operator Vertex(Vector3 e) { return new Vertex(e); }
 
-        /// <summary>   The value. </summary>
+        /// <summary>   The 3D coordinate representing the vertex. </summary>
         public Vector3 Value;
 
         /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
-        /// <param name="value">    The value. </param>
+        /// <param name="value">    The 3D coordinate representing the vertex. </param>
         public Vertex(Vector3 value) {
             Value = value;
         }

@@ -37,7 +37,7 @@ namespace Assets.Scripts.Entities
             typeof(LocalToWorld),
             typeof(HexCoordinates),
             typeof(IsTile),
-            typeof(Triangle),
+            typeof(TrianglePoint),
             typeof(UV),
             typeof(Vertex)
         );

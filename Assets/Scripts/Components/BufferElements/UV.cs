@@ -6,7 +6,13 @@ using UnityEngine;
 
 namespace Assets.Scripts.Components.BufferElements
 {
-    /// <summary>   An uv. </summary>
+    /// <summary>
+    /// An UV coordinate component for creating dynamic buffers.
+    /// 
+    /// UV coordinates are used for texture unwrapping and
+    /// represent the position of the given vertex in the mesh relative to the position on a square
+    /// texture.
+    /// </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [InternalBufferCapacity(1)]
@@ -30,14 +36,14 @@ namespace Assets.Scripts.Components.BufferElements
         /// <returns>   The result of the operation. </returns>
         public static implicit operator UV(Vector2 e) { return new UV(e); }
 
-        /// <summary>   The value. </summary>
+        /// <summary>   The UV coordinate for a certain vertex in a mesh. </summary>
         public Vector2 Value;
 
         /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
-        /// <param name="value">    The value. </param>
+        /// <param name="value">    The UV coordinate for a certain vertex in a mesh. </param>
         public UV(Vector2 value)
         {
             Value = value;

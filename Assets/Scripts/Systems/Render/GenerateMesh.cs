@@ -20,7 +20,7 @@ namespace Assets.Scripts.Systems.Render
     public class GenerateMesh : ComponentSystem
     {
         /// <summary>   The assign mesh. </summary>
-        EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, Triangle, UV> assignMesh;
+        EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, TrianglePoint, UV> assignMesh;
 
         /// <summary>   Executes the create action. </summary>
         ///
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Systems.Render
         /// <param name="vertices">         The vertices. </param>
         /// <param name="triangles">        The triangles. </param>
         /// <param name="uvs">              The uvs. </param>
-        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<Triangle> triangles, DynamicBuffer<UV> uvs) {
+        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<TrianglePoint> triangles, DynamicBuffer<UV> uvs) {
             meshComponent.mesh.Clear();
             if (vertices.Length == 0) {
                 return;
