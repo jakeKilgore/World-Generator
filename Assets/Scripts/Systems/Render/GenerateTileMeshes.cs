@@ -13,22 +13,22 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Systems.Render
 {
-    /// <summary>   A buffer render. </summary>
+    /// <summary>   A system for generating the mesh data for tile entities. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     [UpdateBefore(typeof(AssignTileMeshes))]
     public class GenerateTileMeshes : JobComponentSystem
     {
-        /// <summary>   The buffer system. </summary>
-        EndSimulationEntityCommandBufferSystem bufferSystem;
+        /// <summary>   The command buffer system. </summary>
+        EndSimulationEntityCommandBufferSystem commandBufferSystem;
 
         /// <summary>   Executes the create action. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         protected override void OnCreate() {
             base.OnCreateManager();
-            bufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            commandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         /// <summary>   Executes the update action. </summary>
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Systems.Render
             JobHandle triangleJob = triangles.Schedule(this, inputDeps);
 
             JobHandle jobs = JobHandle.CombineDependencies(vertexJob, triangleJob);
-            bufferSystem.AddJobHandleForProducer(jobs);
+            commandBufferSystem.AddJobHandleForProducer(jobs);
             return jobs;
         }
     }
