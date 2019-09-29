@@ -17,7 +17,8 @@ namespace Assets.Scripts.Systems.Render
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class BufferRender : JobComponentSystem
+    [UpdateBefore(typeof(AssignTileMeshes))]
+    public class GenerateTileMeshes : JobComponentSystem
     {
         /// <summary>   The buffer system. </summary>
         EndSimulationEntityCommandBufferSystem bufferSystem;

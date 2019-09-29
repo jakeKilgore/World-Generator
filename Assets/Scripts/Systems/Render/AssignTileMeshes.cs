@@ -17,7 +17,7 @@ namespace Assets.Scripts.Systems.Render
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    public class GenerateMesh : ComponentSystem
+    public class AssignTileMeshes : ComponentSystem
     {
         /// <summary>   The assign mesh. </summary>
         EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, TrianglePoint, UV> assignMesh;
