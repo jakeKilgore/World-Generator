@@ -13,13 +13,14 @@ using Assets.Scripts.Components.Flags;
 
 namespace Assets.Scripts.Systems.Render
 {
-    /// <summary>   A generate mesh. </summary>
+    /// <summary>   A system for assigning mesh data to tile entities. </summary>
     ///
     /// <remarks>   The Vitulus, 9/28/2019. </remarks>
     [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateAfter(typeof(GenerateTileMeshes))]
     public class AssignTileMeshes : ComponentSystem
     {
-        /// <summary>   The assign mesh. </summary>
+        /// <summary>   The delegate for assigning mesh data to the entity. </summary>
         EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, TrianglePoint, UV> assignMesh;
 
         /// <summary>   Executes the create action. </summary>
@@ -37,7 +38,7 @@ namespace Assets.Scripts.Systems.Render
             Entities.WithNone<HasMesh>().ForEach(assignMesh);
         }
 
-        /// <summary>   Assign mesh. </summary>
+        /// <summary>   Assign the mesh data to the entity. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
