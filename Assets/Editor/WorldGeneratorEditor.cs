@@ -55,7 +55,7 @@ namespace Assets.Editor
                 CreateCachedEditor(settings, null, ref editor);
                 editor.OnInspectorGUI();
 
-                if (check.changed && regenerate != null)
+                if (check.changed && regenerate != null && EditorApplication.isPlaying)
                 {
                     regenerate();
                 }
