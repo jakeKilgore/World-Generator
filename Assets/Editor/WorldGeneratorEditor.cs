@@ -24,7 +24,7 @@ namespace Assets.Editor
         /// <summary>   The noise editor. </summary>
         UnityEditor.Editor noiseEditor;
 
-        /// <summary>   <para>Implement this function to make a custom inspector.</para> </summary>
+        /// <summary>   Create a custom inspector for this gameobject. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         public override void OnInspectorGUI()
@@ -40,8 +40,8 @@ namespace Assets.Editor
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         ///
         /// <param name="settings">     Options for controlling the operation. </param>
-        /// <param name="regenerate">   The regenerate. </param>
-        /// <param name="foldout">      [in,out] True to foldout. </param>
+        /// <param name="regenerate">   An action that will regenerate the gameobject after a setting is changed. </param>
+        /// <param name="foldout">      [in,out] Whether to display the editor window. </param>
         /// <param name="editor">       [in,out] The editor. </param>
         void DrawSettingsEditor(ScriptableObject settings, Action regenerate, ref bool foldout, ref UnityEditor.Editor editor)
         {
@@ -62,7 +62,7 @@ namespace Assets.Editor
             }
         }
 
-        /// <summary>   Executes the enable action. </summary>
+        /// <summary>   Executes when enabled. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
         private void OnEnable()
