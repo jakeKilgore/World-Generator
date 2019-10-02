@@ -87,5 +87,15 @@ namespace Assets.Scripts {
         {
             return 3 * currentring * (currentring + 1);
         }
+
+        public static int FindLayerOfVertex(int vertexIndex)
+        {
+            if (vertexIndex == 0) { return 0; }
+            int a = 3;
+            int b = 3;
+            int c = 1 - vertexIndex;
+            int layer = (int)(-b + math.sqrt(b * b - (4 * a * c))) / (2 * a);
+            return layer + 1;
+        }
     }
 }
