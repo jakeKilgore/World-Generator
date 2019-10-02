@@ -26,9 +26,15 @@ namespace Assets.Scripts.Systems.Render
         /// <summary>   Executes the create action. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
-        protected override void OnCreate() {
+        protected override void OnCreate()
+        {
             base.OnCreateManager();
             commandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
         }
 
         /// <summary>   Executes the update action. </summary>
@@ -38,7 +44,8 @@ namespace Assets.Scripts.Systems.Render
         /// <param name="inputDeps">    The input deps. </param>
         ///
         /// <returns>   A JobHandle. </returns>
-        protected override JobHandle OnUpdate(JobHandle inputDeps) {
+        protected override JobHandle OnUpdate(JobHandle inputDeps)
+        {
             NoiseSettings noise = GetSingleton<NoiseSettings>();
             MapSettings mapData = GetSingleton<MapSettings>();
 
