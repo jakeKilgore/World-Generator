@@ -4,6 +4,7 @@
 // summary:	Implements the coordinates class
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
@@ -20,7 +21,6 @@ namespace Assets.Scripts.Components {
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
     public struct HexCoordinates : IComponentData
     {
-
         /// <summary>   The column. </summary>
         private readonly int column;
         /// <summary>   The row. </summary>
@@ -54,6 +54,11 @@ namespace Assets.Scripts.Components {
             this.column = column;
             this.row = row;
             offset = -(column + row);
+        }
+
+        public override string ToString()
+        {
+            return "(" + Column + ", " + Row + ")";
         }
     }
 }

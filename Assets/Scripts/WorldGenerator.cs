@@ -56,9 +56,11 @@ namespace Assets.Scripts
             noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseSettings));
             mapQuery = entityManager.CreateEntityQuery(typeof(MapSettings));
 
-            entityManager.CreateEntity(typeof(NoiseSettings));
+            Entity noiseEntity = entityManager.CreateEntity(typeof(NoiseSettings));
+            entityManager.SetName(noiseEntity, "Noise Settings");
             noiseQuery.SetSingleton(new NoiseSettings(noiseSettings));
-            entityManager.CreateEntity(typeof(MapSettings));
+            Entity mapEntity = entityManager.CreateEntity(typeof(MapSettings));
+            entityManager.SetName(mapEntity, "Map Settings");
             mapQuery.SetSingleton(new MapSettings(mapSettings));
 
             Tile.Generate(new HexCoordinates(-1, 0), groundMaterial);

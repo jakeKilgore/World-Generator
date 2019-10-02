@@ -57,7 +57,8 @@ namespace Assets.Scripts.Entities
                 material = groundMaterial,
                 receiveShadows = true,
                 castShadows = UnityEngine.Rendering.ShadowCastingMode.On
-        });
+            });
+            entityManager.SetName(tile, "Tile: " + coordinates.ToString());
         }
     }
 }
