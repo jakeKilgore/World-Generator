@@ -32,14 +32,15 @@ namespace Assets.Scripts.Entities
 
         /// <summary>   The tile archetype. </summary>
         private static EntityArchetype archetype = entityManager.CreateArchetype(
-            typeof(Translation),
-            typeof(RenderMesh),
-            typeof(LocalToWorld),
             typeof(HexCoordinates),
             typeof(IsTile),
-            typeof(TrianglePoint),
-            typeof(UV),
-            typeof(Vertex)
+            typeof(LocalToWorld),
+            typeof(Neighbors),
+            typeof(RenderMesh),
+            typeof(Translation),
+            typeof(TrianglePointElement),
+            typeof(UVElement),
+            typeof(VertexElement)
         );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
