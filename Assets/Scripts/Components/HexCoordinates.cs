@@ -28,21 +28,6 @@ namespace Assets.Scripts.Components {
         /// <summary>   The offset. </summary>
         private readonly int offset;
 
-        /// <summary>   Gets the column. </summary>
-        ///
-        /// <value> The column. </value>
-        public int Column { get => column; }
-
-        /// <summary>   Gets the row. </summary>
-        ///
-        /// <value> The row. </value>
-        public int Row { get => row; }
-
-        /// <summary>   Gets the offset. </summary>
-        ///
-        /// <value> The offset. </value>
-        public int Offset { get => offset; }
-
         /// <summary>   Constructor. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
@@ -56,6 +41,26 @@ namespace Assets.Scripts.Components {
             offset = -(column + row);
         }
 
+        /// <summary>   Gets the column. </summary>
+        ///
+        /// <value> The column. </value>
+        public int Column => column;
+
+        /// <summary>   Gets the row. </summary>
+        ///
+        /// <value> The row. </value>
+        public int Row => row;
+
+        /// <summary>   Gets the offset. </summary>
+        ///
+        /// <value> The offset. </value>
+        public int Offset => offset;
+
+        /// <summary>   Convert this object into a string representation. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/2/2019. </remarks>
+        ///
+        /// <returns>   A string that represents this object. </returns>
         public override string ToString()
         {
             return "(" + Column + ", " + Row + ")";
