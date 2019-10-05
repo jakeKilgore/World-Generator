@@ -15,6 +15,7 @@ using Assets.Scripts.Jobs;
 using Unity.Jobs;
 using Assets.Scripts.Components.Flags;
 using Assets.Scripts.Components;
+using Unity.Collections;
 
 namespace Assets.Scripts
 {
@@ -37,6 +38,9 @@ namespace Assets.Scripts
         /// <summary>   An entity query for modifying the MapSettings singleton. </summary>
         private EntityQuery mapQuery;
 
+        /// <summary>   The tiles. </summary>
+        private NativeHashMap<HexCoordinates, Entity> tiles;
+
         /// <summary>   Gets the current map settings. </summary>
         ///
         /// <value> The map settings. </value>
@@ -55,6 +59,7 @@ namespace Assets.Scripts
             entityManager = World.Active.EntityManager;
             noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseSettings));
             mapQuery = entityManager.CreateEntityQuery(typeof(MapSettings));
+            tiles = new NativeHashMap<HexCoordinates, Entity>(7, Allocator.Persistent);
 
             Entity noiseEntity = entityManager.CreateEntity(typeof(NoiseSettings));
             entityManager.SetName(noiseEntity, "Noise Settings");
@@ -63,13 +68,31 @@ namespace Assets.Scripts
             entityManager.SetName(mapEntity, "Map Settings");
             mapQuery.SetSingleton(new MapSettings(mapSettings));
 
-            Tile.Generate(new HexCoordinates(-1, 0), groundMaterial);
-            Tile.Generate(new HexCoordinates(0, 0), groundMaterial);
-            Tile.Generate(new HexCoordinates(1, 0), groundMaterial);
-            Tile.Generate(new HexCoordinates(0, -1), groundMaterial);
-            Tile.Generate(new HexCoordinates(0, 1), groundMaterial);
-            Tile.Generate(new HexCoordinates(1, -1), groundMaterial);
-            Tile.Generate(new HexCoordinates(-1, 1), groundMaterial);
+            CreateTile(new HexCoordinates(-1, 0));
+            CreateTile(new HexCoordinates(0, 0));
+            CreateTile(new HexCoordinates(1, 0));
+            CreateTile(new HexCoordinates(0, -1));
+            CreateTile(new HexCoordinates(0, 1));
+            CreateTile(new HexCoordinates(1, -1));
+            CreateTile(new HexCoordinates(-1, 1));
+        }
+
+        /// <summary>   Executes the disable action. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/5/2019. </remarks>
+        private void OnDisable()
+        {
+            tiles.Dispose();
+        }
+
+        /// <summary>   Creates a tile. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/5/2019. </remarks>
+        ///
+        /// <param name="coordinates">  The coordinates. </param>
+        private void CreateTile(HexCoordinates coordinates)
+        {
+            Entity tile = Tile.Generate(coordinates, groundMaterial);
         }
 
         /// <summary>   Regenerates the world map. </summary>

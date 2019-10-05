@@ -49,7 +49,7 @@ namespace Assets.Scripts.Entities
         ///
         /// <param name="coordinates">      A filter specifying the noise. </param>
         /// <param name="groundMaterial">   The ground material. </param>
-        public static void Generate(HexCoordinates coordinates, Material groundMaterial)
+        public static Entity Generate(HexCoordinates coordinates, Material groundMaterial)
         {
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetComponentData(tile, coordinates);
@@ -60,6 +60,7 @@ namespace Assets.Scripts.Entities
                 castShadows = UnityEngine.Rendering.ShadowCastingMode.On
             });
             entityManager.SetName(tile, "Tile: " + coordinates.ToString());
+            return tile;
         }
     }
 }

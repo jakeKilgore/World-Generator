@@ -19,7 +19,7 @@ namespace Assets.Scripts.Components {
     /// </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
-    public struct HexCoordinates : IComponentData
+    public struct HexCoordinates : IComponentData, IEquatable<HexCoordinates>
     {
         /// <summary>   The column. </summary>
         private readonly int column;
@@ -55,6 +55,29 @@ namespace Assets.Scripts.Components {
         ///
         /// <value> The offset. </value>
         public int Offset => offset;
+
+        /// <summary>   Tests if this HexCoordinates is considered equal to another. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/5/2019. </remarks>
+        ///
+        /// <param name="other">    The hexagonal coordinates to compare to this object. </param>
+        ///
+        /// <returns>   True if the objects are considered equal, false if they are not. </returns>
+        public bool Equals(HexCoordinates other)
+        {
+            return Column == other.Column &&
+                   Row == other.Row &&
+                   Offset == other.Offset;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 931164788;
+            hashCode = hashCode * -1521134295 + Column.GetHashCode();
+            hashCode = hashCode * -1521134295 + Row.GetHashCode();
+            hashCode = hashCode * -1521134295 + Offset.GetHashCode();
+            return hashCode;
+        }
 
         /// <summary>   Convert this object into a string representation. </summary>
         ///
