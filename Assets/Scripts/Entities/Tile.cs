@@ -38,9 +38,9 @@ namespace Assets.Scripts.Entities
             typeof(Neighbors),
             typeof(RenderMesh),
             typeof(Translation),
-            typeof(TrianglePointElement),
-            typeof(UVElement),
-            typeof(VertexElement)
+            typeof(TrianglePoint),
+            typeof(UV),
+            typeof(Vertex)
         );
 
         /// <summary>   Generates a tile given a given noise filter. </summary>
