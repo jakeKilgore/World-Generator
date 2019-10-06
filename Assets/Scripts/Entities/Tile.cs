@@ -82,12 +82,12 @@ namespace Assets.Scripts.Entities
 
         public static Entity FindNeighbor(Direction direction, Entity tile, HexCoordinates coordinates, NativeHashMap<int3, Entity> tiles)
         {
-            Entity value;
+            Entity neighbor;
             int3 vector = Directions.direction[(int)direction];
-            if (tiles.TryGetValue(coordinates + vector, out value))
+            if (tiles.TryGetValue(coordinates + vector, out neighbor))
             {
-                AddNeighbor(value, tile, direction);
-                return value;
+                AddTileToNeighbor(tile, neighbor, direction);
+                return neighbor;
             }
             else
             {
@@ -95,34 +95,34 @@ namespace Assets.Scripts.Entities
             }
         }
 
-        public static void AddNeighbor(Entity tile, Entity neighbor, Direction direction)
+        public static void AddTileToNeighbor(Entity tile, Entity neighbor, Direction direction)
         {
-            Neighbors neighbors = entityManager.GetComponentData<Neighbors>(tile);
+            Neighbors neighbors = entityManager.GetComponentData<Neighbors>(neighbor);
             if (direction is Direction.East)
             {
-                neighbors.west = neighbor;
+                neighbors.west = tile;
             }
             else if (direction is Direction.North)
             {
-                neighbors.south = neighbor;
+                neighbors.south = tile;
             }
             else if (direction is Direction.NorthWest)
             {
-                neighbors.southEast = neighbor;
+                neighbors.southEast = tile;
             }
             else if (direction is Direction.South)
             {
-                neighbors.north = neighbor;
+                neighbors.north = tile;
             }
             else if (direction is Direction.SouthEast)
             {
-                neighbors.northWest = neighbor;
+                neighbors.northWest = tile;
             }
             else if (direction is Direction.West)
             {
-                neighbors.east = neighbor;
+                neighbors.east = tile;
             }
-            entityManager.SetComponentData(tile, neighbors);
+            entityManager.SetComponentData(neighbor, neighbors);
         }
     }
 }
