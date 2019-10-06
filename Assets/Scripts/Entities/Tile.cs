@@ -49,8 +49,12 @@ namespace Assets.Scripts.Entities
         ///
         /// <param name="coordinates">      A filter specifying the noise. </param>
         /// <param name="groundMaterial">   The ground material. </param>
-        public static Entity Generate(HexCoordinates coordinates, Material groundMaterial)
+        public static bool Generate(HexCoordinates coordinates, Material groundMaterial, NativeHashMap<int3, Entity> tiles)
         {
+            if (tiles.ContainsKey(coordinates))
+            {
+                return false;
+            }
             Entity tile = entityManager.CreateEntity(archetype);
             entityManager.SetComponentData(tile, coordinates);
             entityManager.SetSharedComponentData(tile, new RenderMesh {
@@ -60,7 +64,65 @@ namespace Assets.Scripts.Entities
                 castShadows = UnityEngine.Rendering.ShadowCastingMode.On
             });
             entityManager.SetName(tile, "Tile: " + coordinates.ToString());
-            return tile;
+            AddNeighbors(tile, coordinates, tiles);
+            tiles.TryAdd(coordinates, tile);
+            return true;
+        }
+
+        public static void AddNeighbors(Entity tile, int3 coordinates, NativeHashMap<int3, Entity> tiles)
+        {
+            Entity east = FindNeighbor(Direction.East, tile, coordinates, tiles);
+            Entity north = FindNeighbor(Direction.North, tile, coordinates, tiles);
+            Entity northWest = FindNeighbor(Direction.NorthWest, tile, coordinates, tiles);
+            Entity south = FindNeighbor(Direction.South, tile, coordinates, tiles);
+            Entity southEast = FindNeighbor(Direction.SouthEast, tile, coordinates, tiles);
+            Entity west = FindNeighbor(Direction.West, tile, coordinates, tiles);
+            entityManager.SetComponentData(tile, new Neighbors(east, north, northWest, south, southEast, west));
+        }
+
+        public static Entity FindNeighbor(Direction direction, Entity tile, HexCoordinates coordinates, NativeHashMap<int3, Entity> tiles)
+        {
+            Entity value;
+            int3 vector = Directions.direction[(int)direction];
+            if (tiles.TryGetValue(coordinates + vector, out value))
+            {
+                AddNeighbor(value, tile, direction);
+                return value;
+            }
+            else
+            {
+                return Entity.Null;
+            }
+        }
+
+        public static void AddNeighbor(Entity tile, Entity neighbor, Direction direction)
+        {
+            Neighbors neighbors = entityManager.GetComponentData<Neighbors>(tile);
+            if (direction is Direction.East)
+            {
+                neighbors.East = neighbor;
+            }
+            else if (direction is Direction.North)
+            {
+                neighbors.North = neighbor;
+            }
+            else if (direction is Direction.NorthWest)
+            {
+                neighbors.NorthWest = neighbor;
+            }
+            else if (direction is Direction.South)
+            {
+                neighbors.South = neighbor;
+            }
+            else if (direction is Direction.SouthEast)
+            {
+                neighbors.SouthEast = neighbor;
+            }
+            else if (direction is Direction.West)
+            {
+                neighbors.West = neighbor;
+            }
+            entityManager.SetComponentData(tile, neighbors);
         }
     }
 }

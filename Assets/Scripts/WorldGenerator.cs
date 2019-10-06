@@ -16,6 +16,7 @@ using Unity.Jobs;
 using Assets.Scripts.Components.Flags;
 using Assets.Scripts.Components;
 using Unity.Collections;
+using Unity.Mathematics;
 
 namespace Assets.Scripts
 {
@@ -39,7 +40,7 @@ namespace Assets.Scripts
         private EntityQuery mapQuery;
 
         /// <summary>   The tiles. </summary>
-        private NativeHashMap<HexCoordinates, Entity> tiles;
+        private NativeHashMap<int3, Entity> tiles;
 
         /// <summary>   Gets the current map settings. </summary>
         ///
@@ -59,7 +60,7 @@ namespace Assets.Scripts
             entityManager = World.Active.EntityManager;
             noiseQuery = entityManager.CreateEntityQuery(typeof(NoiseSettings));
             mapQuery = entityManager.CreateEntityQuery(typeof(MapSettings));
-            tiles = new NativeHashMap<HexCoordinates, Entity>(7, Allocator.Persistent);
+            tiles = new NativeHashMap<int3, Entity>(7, Allocator.Persistent);
 
             Entity noiseEntity = entityManager.CreateEntity(typeof(NoiseSettings));
             entityManager.SetName(noiseEntity, "Noise Settings");
@@ -92,7 +93,7 @@ namespace Assets.Scripts
         /// <param name="coordinates">  The coordinates. </param>
         private void CreateTile(HexCoordinates coordinates)
         {
-            Entity tile = Tile.Generate(coordinates, groundMaterial);
+            Tile.Generate(coordinates, groundMaterial, tiles);
         }
 
         /// <summary>   Regenerates the world map. </summary>

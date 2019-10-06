@@ -56,6 +56,10 @@ namespace Assets.Scripts.Components {
         /// <value> The offset. </value>
         public int Offset => offset;
 
+        public static implicit operator int3(HexCoordinates coordinates) { return new int3(coordinates.Column, coordinates.Row, coordinates.Offset); }
+        public static implicit operator HexCoordinates(int3 coordinates) { return new HexCoordinates(coordinates.x, coordinates.y); }
+        public static implicit operator HexCoordinates(int2 coordinates) { return new HexCoordinates(coordinates.x, coordinates.y); }
+
         /// <summary>   Tests if this HexCoordinates is considered equal to another. </summary>
         ///
         /// <remarks>   The Vitulus, 10/5/2019. </remarks>
