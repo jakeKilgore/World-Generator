@@ -19,14 +19,15 @@ namespace Assets.Scripts.Components {
     /// </summary>
     ///
     /// <remarks>   The Vitulus, 8/15/2019. </remarks>
+    [Serializable]
     public struct HexCoordinates : IComponentData, IEquatable<HexCoordinates>
     {
         /// <summary>   The column. </summary>
-        private readonly int column;
+        public readonly int column;
         /// <summary>   The row. </summary>
-        private readonly int row;
+        public readonly int row;
         /// <summary>   The offset. </summary>
-        private readonly int offset;
+        public readonly int offset;
 
         /// <summary>   Constructor. </summary>
         ///
@@ -41,22 +42,7 @@ namespace Assets.Scripts.Components {
             offset = -(column + row);
         }
 
-        /// <summary>   Gets the column. </summary>
-        ///
-        /// <value> The column. </value>
-        public int Column => column;
-
-        /// <summary>   Gets the row. </summary>
-        ///
-        /// <value> The row. </value>
-        public int Row => row;
-
-        /// <summary>   Gets the offset. </summary>
-        ///
-        /// <value> The offset. </value>
-        public int Offset => offset;
-
-        public static implicit operator int3(HexCoordinates coordinates) { return new int3(coordinates.Column, coordinates.Row, coordinates.Offset); }
+        public static implicit operator int3(HexCoordinates coordinates) { return new int3(coordinates.column, coordinates.row, coordinates.offset); }
         public static implicit operator HexCoordinates(int3 coordinates) { return new HexCoordinates(coordinates.x, coordinates.y); }
         public static implicit operator HexCoordinates(int2 coordinates) { return new HexCoordinates(coordinates.x, coordinates.y); }
 
@@ -69,17 +55,17 @@ namespace Assets.Scripts.Components {
         /// <returns>   True if the objects are considered equal, false if they are not. </returns>
         public bool Equals(HexCoordinates other)
         {
-            return Column == other.Column &&
-                   Row == other.Row &&
-                   Offset == other.Offset;
+            return column == other.column &&
+                   row == other.row &&
+                   offset == other.offset;
         }
 
         public override int GetHashCode()
         {
             var hashCode = 931164788;
-            hashCode = hashCode * -1521134295 + Column.GetHashCode();
-            hashCode = hashCode * -1521134295 + Row.GetHashCode();
-            hashCode = hashCode * -1521134295 + Offset.GetHashCode();
+            hashCode = hashCode * -1521134295 + column.GetHashCode();
+            hashCode = hashCode * -1521134295 + row.GetHashCode();
+            hashCode = hashCode * -1521134295 + offset.GetHashCode();
             return hashCode;
         }
 
@@ -90,7 +76,7 @@ namespace Assets.Scripts.Components {
         /// <returns>   A string that represents this object. </returns>
         public override string ToString()
         {
-            return "(" + Column + ", " + Row + ")";
+            return "(" + column + ", " + row + ")";
         }
     }
 }

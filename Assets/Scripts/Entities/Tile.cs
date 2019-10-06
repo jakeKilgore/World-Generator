@@ -100,27 +100,27 @@ namespace Assets.Scripts.Entities
             Neighbors neighbors = entityManager.GetComponentData<Neighbors>(tile);
             if (direction is Direction.East)
             {
-                neighbors.East = neighbor;
+                neighbors.west = neighbor;
             }
             else if (direction is Direction.North)
             {
-                neighbors.North = neighbor;
+                neighbors.south = neighbor;
             }
             else if (direction is Direction.NorthWest)
             {
-                neighbors.NorthWest = neighbor;
+                neighbors.southEast = neighbor;
             }
             else if (direction is Direction.South)
             {
-                neighbors.South = neighbor;
+                neighbors.north = neighbor;
             }
             else if (direction is Direction.SouthEast)
             {
-                neighbors.SouthEast = neighbor;
+                neighbors.northWest = neighbor;
             }
             else if (direction is Direction.West)
             {
-                neighbors.West = neighbor;
+                neighbors.east = neighbor;
             }
             entityManager.SetComponentData(tile, neighbors);
         }

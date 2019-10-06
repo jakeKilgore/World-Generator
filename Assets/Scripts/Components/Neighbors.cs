@@ -1,6 +1,7 @@
 ﻿// file:	Assets\Scripts\Components\Vertex.cs
 //
 // summary:	Implements the neighbors class
+using System;
 using Unity.Entities;
 
 namespace Assets.Scripts.Components
@@ -8,20 +9,21 @@ namespace Assets.Scripts.Components
     /// <summary>   A neighbors. </summary>
     ///
     /// <remarks>   The Vitulus, 10/2/2019. </remarks>
+    [Serializable]
     public struct Neighbors : IComponentData
     {
         /// <summary>   The east. </summary>
-        private Entity east;
+        public Entity east;
         /// <summary>   The north. </summary>
-        private Entity north;
+        public Entity north;
         /// <summary>   The north west. </summary>
-        private Entity northWest;
+        public Entity northWest;
         /// <summary>   The south. </summary>
-        private Entity south;
+        public Entity south;
         /// <summary>   The south east. </summary>
-        private Entity southEast;
+        public Entity southEast;
         /// <summary>   The west. </summary>
-        private Entity west;
+        public Entity west;
 
         /// <summary>   Constructor. </summary>
         ///
@@ -42,35 +44,5 @@ namespace Assets.Scripts.Components
             this.southEast = southEast;
             this.west = west;
         }
-
-        /// <summary>   Gets the east. </summary>
-        ///
-        /// <value> The east. </value>
-        public Entity East { get => east; set => east = value; }
-
-        /// <summary>   Gets the north. </summary>
-        ///
-        /// <value> The north. </value>
-        public Entity North { get => north; set => north = value; }
-
-        /// <summary>   Gets the north west. </summary>
-        ///
-        /// <value> The north west. </value>
-        public Entity NorthWest { get => northWest; set => northWest = value; }
-
-        /// <summary>   Gets the south. </summary>
-        ///
-        /// <value> The south. </value>
-        public Entity South { get => south; set => south = value; }
-
-        /// <summary>   Gets the south east. </summary>
-        ///
-        /// <value> The south east. </value>
-        public Entity SouthEast { get => southEast; set => southEast = value; }
-
-        /// <summary>   Gets the west. </summary>
-        ///
-        /// <value> The west. </value>
-        public Entity West { get => west; set => west = value; }
     }
 }

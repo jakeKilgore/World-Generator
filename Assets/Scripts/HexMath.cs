@@ -34,8 +34,8 @@ namespace Assets.Scripts {
         {
             float height = HeightMultiple;
             float width = WidthMultiple;
-            float posX = WidthMultiple * (coordinate.Column + (coordinate.Row / 2f));
-            float posY = HeightMultiple * 3 / 4 * coordinate.Row;
+            float posX = WidthMultiple * (coordinate.column + (coordinate.row / 2f));
+            float posY = HeightMultiple * 3 / 4 * coordinate.row;
 
             return new float2(posX, posY);
         }
