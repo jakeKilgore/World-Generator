@@ -21,7 +21,7 @@ namespace Assets.Scripts.Systems.Render
     public class UpdateTileMeshes : ComponentSystem
     {
         /// <summary>   The delegate for assigning mesh data to the entity. </summary>
-        EntityQueryBuilder.F_ESBBB<RenderMesh, Vertex, TrianglePoint, UV> assignMesh;
+        EntityQueryBuilder.F_ESBBBB<RenderMesh, Vertex, TrianglePoint, UV, Normal> assignMesh;
 
         /// <summary>   Executes the create action. </summary>
         ///
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Systems.Render
         /// <param name="vertices">         The vertices. </param>
         /// <param name="triangles">        The triangles. </param>
         /// <param name="uvs">              The uvs. </param>
-        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<TrianglePoint> triangles, DynamicBuffer<UV> uvs) {
+        private void AssignMesh(Entity entity, RenderMesh meshComponent, DynamicBuffer<Vertex> vertices, DynamicBuffer<TrianglePoint> triangles, DynamicBuffer<UV> uvs, DynamicBuffer<Normal> normals) {
             meshComponent.mesh.Clear();
             if (vertices.Length == 0) {
                 return;
@@ -59,12 +59,15 @@ namespace Assets.Scripts.Systems.Render
             ListExtensions.AddRange(triangleList, triangles.Reinterpret<int>());
             List<Vector2> uvList = new List<Vector2>();
             ListExtensions.AddRange(uvList, uvs.Reinterpret<Vector2>());
+            List<Vector3> normalList = new List<Vector3>();
+            ListExtensions.AddRange(normalList, normals.Reinterpret<Vector3>());
             meshComponent.mesh.SetVertices(vertexList);
             meshComponent.mesh.SetTriangles(triangleList, 0);
             meshComponent.mesh.SetUVs(0, uvList);
-            meshComponent.mesh.RecalculateBounds();
-            meshComponent.mesh.RecalculateNormals();
-            meshComponent.mesh.RecalculateTangents();
+            meshComponent.mesh.SetNormals(normalList);
+            //meshComponent.mesh.RecalculateBounds();
+            //meshComponent.mesh.RecalculateNormals();
+            //meshComponent.mesh.RecalculateTangents();
             
             PostUpdateCommands.SetSharedComponent(entity, meshComponent);
             PostUpdateCommands.AddComponent(entity, typeof(HasMesh));

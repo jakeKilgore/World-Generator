@@ -36,6 +36,7 @@ namespace Assets.Scripts.Entities
             typeof(IsTile),
             typeof(LocalToWorld),
             typeof(Neighbors),
+            typeof(Normal),
             typeof(RenderMesh),
             typeof(Translation),
             typeof(TrianglePoint),

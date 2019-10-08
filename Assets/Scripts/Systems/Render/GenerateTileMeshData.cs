@@ -51,7 +51,8 @@ namespace Assets.Scripts.Systems.Render
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
             BufferFromEntity<UV> uvBuffers = GetBufferFromEntity<UV>();
-            GenerateMeshVerticesAndUVs vertices = new GenerateMeshVerticesAndUVs(vertexBuffers, uvBuffers, noise, mapData);
+            BufferFromEntity<Normal> normalBuffers = GetBufferFromEntity<Normal>();
+            GenerateMeshVerticesNormalsAndUVs vertices = new GenerateMeshVerticesNormalsAndUVs(vertexBuffers, uvBuffers, normalBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<TrianglePoint> triangleBuffers = GetBufferFromEntity<TrianglePoint>();
