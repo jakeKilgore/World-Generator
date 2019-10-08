@@ -51,8 +51,7 @@ namespace Assets.Scripts.Systems.Render
 
             BufferFromEntity<Vertex> vertexBuffers = GetBufferFromEntity<Vertex>();
             BufferFromEntity<UV> uvBuffers = GetBufferFromEntity<UV>();
-            BufferFromEntity<Normal> normalBuffers = GetBufferFromEntity<Normal>();
-            GenerateMeshVerticesNormalsAndUVs vertices = new GenerateMeshVerticesNormalsAndUVs(vertexBuffers, uvBuffers, normalBuffers, noise, mapData);
+            GenerateMeshVerticesAndUVs vertices = new GenerateMeshVerticesAndUVs(vertexBuffers, uvBuffers, noise, mapData);
             JobHandle vertexJob = vertices.Schedule(this, inputDeps);
 
             BufferFromEntity<TrianglePoint> triangleBuffers = GetBufferFromEntity<TrianglePoint>();
@@ -60,6 +59,12 @@ namespace Assets.Scripts.Systems.Render
             JobHandle triangleJob = triangles.Schedule(this, inputDeps);
 
             JobHandle jobs = JobHandle.CombineDependencies(vertexJob, triangleJob);
+
+            BufferFromEntity<Normal> normalBuffers = GetBufferFromEntity<Normal>();
+            GenerateMeshNormals normals = new GenerateMeshNormals(vertexBuffers, triangleBuffers, normalBuffers);
+            JobHandle normalsJob = normals.Schedule(this, jobs);
+
+            jobs = JobHandle.CombineDependencies(jobs, normalsJob);
             commandBufferSystem.AddJobHandleForProducer(jobs);
             return jobs;
         }

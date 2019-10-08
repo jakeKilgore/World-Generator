@@ -20,7 +20,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
     [BurstCompile]
     [RequireComponentTag(typeof(IsTile), typeof(Vertex), typeof(UV), typeof(Normal))]
     [ExcludeComponent(typeof(HasMesh))]
-    public struct GenerateMeshVerticesNormalsAndUVs : IJobForEachWithEntity<HexCoordinates>
+    public struct GenerateMeshVerticesAndUVs : IJobForEachWithEntity<HexCoordinates>
     {
         /// <summary>   The vertex buffers. </summary>
         [NativeDisableParallelForRestriction]
@@ -28,9 +28,6 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <summary>   The uv buffers. </summary>
         [NativeDisableParallelForRestriction]
         [WriteOnly] BufferFromEntity<UV> uvBuffers;
-        /// <summary>   The normal buffers. </summary>
-        [NativeDisableParallelForRestriction]
-        [WriteOnly] BufferFromEntity<Normal> normalBuffers;
         /// <summary>   The noise settings. </summary>
         readonly NoiseSettings noiseSettings;
         /// <summary>   The map settings. </summary>
@@ -45,11 +42,10 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="normalBuffers">    The normal buffers. </param>
         /// <param name="noiseSettings">    The noise settings. </param>
         /// <param name="mapSettings">      The map settings. </param>
-        public GenerateMeshVerticesNormalsAndUVs(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, BufferFromEntity<Normal> normalBuffers, NoiseSettings noiseSettings, MapSettings mapSettings)
+        public GenerateMeshVerticesAndUVs(BufferFromEntity<Vertex> vertexBuffers, BufferFromEntity<UV> uvBuffers, NoiseSettings noiseSettings, MapSettings mapSettings)
         {
             this.vertexBuffers = vertexBuffers;
             this.uvBuffers = uvBuffers;
-            this.normalBuffers = normalBuffers;
             this.noiseSettings = noiseSettings;
             this.mapSettings = mapSettings;
         }
@@ -69,18 +65,14 @@ namespace Assets.Scripts.Systems.Render.Jobs
             DynamicBuffer<UV> uvs = uvBuffers[entity];
             uvs.Clear();
 
-            DynamicBuffer<Normal> normals = normalBuffers[entity];
-            normals.Clear();
-
             float2 position = HexMath.Position(coordinates);
             Vector3 vertex = DrawVertex(position);
             vertices.Add(vertex);
             uvs.Add(new Vector2(.5f, .5f));
-            normals.Add(DrawNormal(vertex));
 
             for (int currentRing = 1; currentRing <= mapSettings.levelOfDetail; currentRing++)
             {
-                DrawRing(vertices, uvs, normals, currentRing, position);
+                DrawRing(vertices, uvs, currentRing, position);
             }
         }
 
@@ -93,7 +85,7 @@ namespace Assets.Scripts.Systems.Render.Jobs
         /// <param name="normals">      The normals. </param>
         /// <param name="currentRing">  The current ring. </param>
         /// <param name="position">     The position. </param>
-        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, DynamicBuffer<Normal> normals, int currentRing, float2 position)
+        private void DrawRing(DynamicBuffer<Vertex> vertices, DynamicBuffer<UV> uvs, int currentRing, float2 position)
         {
             int verticesInRing = HexMath.CheckVerticesInLayer(currentRing);
             float arcBetweenPoints = FindArc(verticesInRing);
@@ -107,35 +99,8 @@ namespace Assets.Scripts.Systems.Render.Jobs
                 Vector3 vertex = DrawVertex(position + point);
                 vertices.Add(vertex);
                 uvs.Add(ProjectPoint(point));
-                normals.Add(DrawNormal(vertex));
                 angle += arcBetweenPoints;
             }
-        }
-
-        /// <summary>   Draw normal. </summary>
-        ///
-        /// <remarks>   The Vitulus, 10/7/2019. </remarks>
-        ///
-        /// <param name="vertex">   The vertex. </param>
-        ///
-        /// <returns>   A Normal. </returns>
-        private Normal DrawNormal(float3 vertex)
-        {
-            float distance = 1f / mapSettings.levelOfDetail;
-            float arc = math.radians(-60);
-            float angle = 0;
-            float3 normal = new float3(0, 0, 0);
-            for (int i = 1; i <= 6; i++)
-            {
-                float2 point1 = FindPoint(angle, distance);
-                float3 side1 = (float3)DrawVertex(new float2(vertex.x, vertex.z) + point1) - vertex;
-                angle += arc;
-                float2 point2 = FindPoint(angle, distance);
-                float3 side2 = (float3)DrawVertex(new float2(vertex.x, vertex.z) + point2) - vertex;
-
-                normal += math.cross(side1, side2);
-            }
-            return (Vector3)math.normalize(normal);
         }
 
         /// <summary>   Searches for the arc between vertices. </summary>

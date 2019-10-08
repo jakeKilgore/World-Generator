@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Scripts.Components.BufferElements
@@ -27,6 +28,15 @@ namespace Assets.Scripts.Components.BufferElements
         /// <returns>   The result of the operation. </returns>
         public static implicit operator Vector3(Vertex e) { return e.Value; }
 
+        /// <summary>   Implicit cast that converts the given Vertex to a float3. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/7/2019. </remarks>
+        ///
+        /// <param name="e">    A Vertex to process. </param>
+        ///
+        /// <returns>   The result of the operation. </returns>
+        public static implicit operator float3(Vertex e) { return e.Value; }
+
         /// <summary>   Implicit cast that converts the given Vector3 to a Vertex. </summary>
         ///
         /// <remarks>   The Vitulus, 9/28/2019. </remarks>
@@ -35,6 +45,15 @@ namespace Assets.Scripts.Components.BufferElements
         ///
         /// <returns>   The result of the operation. </returns>
         public static implicit operator Vertex(Vector3 e) { return new Vertex(e); }
+
+        /// <summary>   Implicit cast that converts the given float3 to a Vertex. </summary>
+        ///
+        /// <remarks>   The Vitulus, 10/7/2019. </remarks>
+        ///
+        /// <param name="e">    A float3 to process. </param>
+        ///
+        /// <returns>   The result of the operation. </returns>
+        public static implicit operator Vertex(float3 e) { return new Vertex(e); }
 
         /// <summary>   The 3D coordinate representing the vertex. </summary>
         public Vector3 Value;
