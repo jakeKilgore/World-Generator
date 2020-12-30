@@ -1,27 +1,15 @@
 {
   "dependencies": {
-    "com.bovinelabs.entities": "https://github.com/tertle/com.bovinelabs.entities.git",
-    "com.bovinelabs.naughtyattributes": "https://github.com/tertle/com.bovinelabs.naughtyattributes.git",
-    "com.havok.physics": "0.1.1-preview",
-    "com.unity.ads": "2.0.8",
-    "com.unity.analytics": "3.3.2",
-    "com.unity.burst": "1.1.2",
-    "com.unity.collab-proxy": "1.2.16",
-    "com.unity.collections": "0.1.1-preview",
-    "com.unity.entities": "0.1.1-preview",
-    "com.unity.ext.nunit": "1.0.0",
-    "com.unity.ide.rider": "1.1.1",
-    "com.unity.ide.visualstudio": "1.0.11",
-    "com.unity.ide.vscode": "1.1.2",
-    "com.unity.inputsystem": "1.0.0-preview",
-    "com.unity.jobs": "0.1.1-preview",
-    "com.unity.physics": "0.2.4-preview",
-    "com.unity.purchasing": "2.0.6",
-    "com.unity.render-pipelines.high-definition": "7.0.1",
-    "com.unity.rendering.hybrid": "0.1.1-preview",
-    "com.unity.test-framework": "1.1.3",
-    "com.unity.textmeshpro": "2.0.1",
-    "com.unity.timeline": "1.2.2",
+    "com.havok.physics": "0.4.1-preview.2",
+    "com.unity.collab-proxy": "1.3.9",
+    "com.unity.ide.rider": "2.0.7",
+    "com.unity.ide.visualstudio": "2.0.5",
+    "com.unity.ide.vscode": "1.2.3",
+    "com.unity.jobs": "0.7.0-preview.17",
+    "com.unity.render-pipelines.universal": "10.2.2",
+    "com.unity.test-framework": "1.1.19",
+    "com.unity.textmeshpro": "3.0.1",
+    "com.unity.timeline": "1.4.4",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
@@ -54,15 +42,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "lock": {
-    "com.bovinelabs.entities": {
-      "revision": "HEAD",
-      "hash": "87ac3d5864f0d4e4bc842f7d8ef1c04b3c7a883b"
-    },
-    "com.bovinelabs.naughtyattributes": {
-      "revision": "HEAD",
-      "hash": "3066ded4f3047463e3864b1af688f574cb3728b5"
-    }
   }
 }
