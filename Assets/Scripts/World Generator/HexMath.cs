@@ -1,4 +1,4 @@
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 
 namespace Assets.Scripts.WorldGenerator {
 
@@ -62,6 +62,7 @@ namespace Assets.Scripts.WorldGenerator {
         }
 
         /// <summary>   Find the minimum resolution level that includes the given vertex. </summary>
+        /// <remarks>   The resolution is the positive solution, rounded down, to the quadratic equation 3x^2 + 3x + (1 - vertex index) = 0. </remarks>
         /// <param name="vertexIndex">  The index of the vertex in the hexagon mesh. </param>
         /// <returns>   The minimum resolution level that includes the given vertex. </returns>
         public static int MinResolutionOfVertex(int vertexIndex)
