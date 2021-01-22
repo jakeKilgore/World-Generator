@@ -24,5 +24,7 @@ namespace Assets.Scripts.WorldGenerator
         public static ref readonly int3 SouthWest => ref southWest;
         /// <summary> Vector pointing southeast from the hex. </summary>
         public static ref readonly int3 SouthEast => ref southEast;
+
+        public static int3[] Directions = {East, NorthEast, NorthWest, West, SouthWest, SouthEast};
     }
 }
