@@ -1,4 +1,4 @@
-﻿using Unity.Mathematics;
+using Unity.Mathematics;
 
 namespace Assets.Scripts.WorldGenerator {
 
@@ -70,7 +70,7 @@ namespace Assets.Scripts.WorldGenerator {
             var a = 3;
             var b = 3;
             var c = 1 - vertexIndex;
-            int resolution = (int)(-b + math.sqrt(b * b - (4 * a * c))) / (2 * a);
+            int resolution = (int)(-b + math.sqrt(b * b - (4 * a * c)) / (2 * a));
             return resolution + 1;
         }
     }
