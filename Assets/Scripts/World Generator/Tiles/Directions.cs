@@ -1,6 +1,6 @@
 ﻿using Unity.Mathematics;
 
-namespace Assets.Scripts.WorldGenerator
+namespace Assets.Scripts.WorldGenerator.Tiles
 {
     /// <summary>   Collection of the valid directions to move out of a hexagonal tile. </summary>
     public static class Direction
