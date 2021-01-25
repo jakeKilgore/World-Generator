@@ -1,6 +1,6 @@
 ﻿using Unity.Mathematics;
 
-namespace Assets.Scripts.WorldGenerator.Tiles
+namespace Assets.Scripts.WorldGenerator.Tile
 {
     /// <summary>   Mathematics for the hexagonal tile implementation. </summary>
     public static class HexMath
